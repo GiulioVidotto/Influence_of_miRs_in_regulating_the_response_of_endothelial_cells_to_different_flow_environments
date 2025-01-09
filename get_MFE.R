@@ -22,12 +22,12 @@
 #   - If the line contains only gene or miRNA information, no output is returned but the corresponding ID is stored for later use.
 
 get_MFE <- function(file_line) {
+  gene_ID <- NULL
+  miRNA_ID <- NULL
   if (startsWith(file_line, ">ENSG")) {
-    gene_ID <<- gsub(">ENSG","ENSG", file_line)
-    NULL
+    gene_ID <- gsub(">ENSG","ENSG", file_line)
   } else if (startsWith(file_line, ">hsa-")) {
-    miRNA_ID <<- gsub(">hsa-", "hsa-", file_line)
-    NULL
+    miRNA_ID <- gsub(">hsa-", "hsa-", file_line)
   } else {
     MFE_value <- gsub("[(\\.]*&[)\\.]*\\s*\\d*,\\d*\\s*:\\s*\\d*,\\d*\\s*\\(|\\s+.*", "", file_line)
     result <- data.frame(gene_ID = gene_ID,
