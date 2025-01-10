@@ -222,6 +222,29 @@ extract_miRNA_info <- function(altered_miR_database,
 }
 
 
+# Function Name: get_graphs
+#
+# This function performs a multi-step analysis pipeline, which includes:
+# - Creating temporary databases for miRNA interactions and mRNA/proteomics data.
+# - Merging the databases and dividing the data into background and test groups.
+# - Performing statistical tests to analyze interactions and generate corresponding plots.
+# - Optionally saving intermediate data at key stages.
+# - Returning a vector of p-values from the statistical tests.
+#
+# Inputs:
+# - common_interaction_db: A database containing known miRNA-mRNA interaction data.
+# - altered_miRNAs_type: The type of altered miRNAs (e.g., upregulated or downregulated).
+# - mRNA_proteomics_data: Data containing mRNA or proteomics expression values for analysis.
+# - contrast: The contrast being analyzed (e.g., different experimental conditions).
+# - miRNAs_threshold: Threshold for filtering miRNAs based on expression levels or significance.
+# - background_group_num: Specifies which background group to use (either "1" or "2").
+# - about_test: Additional information about the test to be included in results or plots.
+# - save_intermediate: Logical flag indicating whether to save intermediate data files.
+# - adj_p_value_threshold: Adjusted p-value threshold for filtering significant interactions.
+#
+# Outputs:
+# - A vector of p-values from the performed statistical tests.
+
 get_graphs <- function(common_interaction_db,
                        altered_miRNAs_type,
                        mRNA_proteomics_data,
