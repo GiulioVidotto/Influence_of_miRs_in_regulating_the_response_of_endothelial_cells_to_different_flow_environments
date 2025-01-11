@@ -3,7 +3,7 @@
 # link of the file to download
 download_link=$1
 # Folder where the files will be stored
-download_dir="$HOME/Validation_step/bed_and_fasta_file/chr_fasta_file"
+download_dir=$2
 
 # If not already present, create a new folder where the downloaded chromosome file will be stored (if it is not already present)
 if [ ! -d "$download_dir" ]; then
