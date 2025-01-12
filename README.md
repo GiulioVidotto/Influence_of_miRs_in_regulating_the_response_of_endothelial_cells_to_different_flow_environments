@@ -1,6 +1,6 @@
 # Influence of miRs in regulating the response of endothelial cells to different flow environments
 
-This study investigated the role of flow-responsive micro-RNAs (miRNAs) in endothelial cells (ECs). The findings of this project provided new insights into the molecular mechanisms governing endothelial function in vascular health and disease. Further details and results will be shared upon the publication of the associated research paper.
+This repository contains the code that I wrote study investigated the role of flow-responsive micro-RNAs (miRNAs) in endothelial cells (ECs). The findings of this project provided new insights into the molecular mechanisms governing endothelial function in vascular health and disease. Further details and results will be shared upon the publication of the associated research paper.
 
 ## Installation
 
@@ -8,7 +8,11 @@ This study investigated the role of flow-responsive micro-RNAs (miRNAs) in endot
     ```bash
     git clone https://github.com/GiulioVidotto/Influence_of_miRs_in_regulating_the_response_of_endothelial_cells_to_different_flow_environments.git
     ```
-2. Download the public data:
+2. Download the data:
+    This project depends on public available data and data obtained from lab experiments.
+    2.1 Download the data obtained in the lab:
+    > **⚠️ Note:** The lab data associated with this study will be released alongside the research paper.
+    2.2 Download the public data:
     ```bash
     bash download_public_data.sh
     ```
@@ -38,5 +42,5 @@ This study investigated the role of flow-responsive micro-RNAs (miRNAs) in endot
     │       ├── chrY.fa                                  # Chromosome Y sequence
     │       └── chrM.fa                                  # Mitochondrial DNA sequence
     ```
-4. Download the data obtained in the lab:
-    > **⚠️ Note:** The databases associated with this study will be released alongside the research paper.
+4. 
+    
