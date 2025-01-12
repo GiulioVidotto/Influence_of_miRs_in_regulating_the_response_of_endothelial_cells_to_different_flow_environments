@@ -20,8 +20,13 @@
 #   - stop: Stop position of the 3' UTR.
 
 update_stop_coord <- function(file_path) {
-  # Upload the data
-  poly_A_site_db <- read.table(file_path, sep = ",", stringsAsFactors = FALSE, header = TRUE)
+  # Check that the file exists
+  if (!file.exists(APA_output_path)) {
+    stop("Error: APA output file does not exist at the specified path.")
+  } else {
+    # Upload the data
+    poly_A_site_db <- read.table(file_path, sep = ",", stringsAsFactors = FALSE, header = TRUE)
+  }
   # Checks on the columns
   required_columns <- c("Transcript_ID", "MSE", "UTR_coordinates")
   if (!all(required_columns %in% colnames(poly_A_site_db))) {
