@@ -8,23 +8,17 @@ chr_num_array=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15"
 # There is no M chromosome because predictAPA could not predict any 3UTR regions on that chromosome based on the poly A sites.
 
 for chr_num in ${chr_num_array[@]};do
-    
     # Define the name of the file
     file="${file_name}${chr_num}.fa"
-
     # Define the file location to the DNA sequence file   
     DNA_file="${HOME}/project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_DNA/${file}"
-    
     echo "Processing ${file}"
     fasta_output="${HOME}/project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_mRNA/mRNA_${file}"
-    
     # If it already exists, remove the file
-    rm -f ${fasta_output}
-        
+    rm -f ${fasta_output} 
     # Iterate over each line of the file
     while IFS= read -r line; do
         if [[ "${line}" == ">"* ]];then
-    
             # Append the header to the fasta file
             echo "${line}" >> ${fasta_output}
         else
