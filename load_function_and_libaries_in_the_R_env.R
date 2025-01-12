@@ -14,13 +14,10 @@
 
 # Define the path to the folder containing R scripts
 R_folder <- paste0(getwd(), "/R_function_scripts")
-
 # Check if the directory exists
 if (dir.exists(R_folder)) {
-  
   # List all R files in the folder, including full file paths
   list_of_files <- list.files(R_folder, pattern = "\\.R$", full.names = TRUE)
-  
   # Check if there are any R files to source
   if (length(list_of_files) > 0) {
     # Loop through each file and source it
@@ -30,7 +27,6 @@ if (dir.exists(R_folder)) {
   } else {
     cat("No R files found in the directory.\n")
   }
-  
 } else {
   cat("Directory does not exist: ", R_folder, "\n")
 }
