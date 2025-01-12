@@ -15,32 +15,39 @@ file_name=$(basename "$download_link")
 # Destination path where the file will be stored
 dest_file="$download_dir/$file_name"
 
-# Download the file if the link is valid
-echo "Checking link: $download_link"
-if wget --spider "$download_link" 2>/dev/null; then
-    # If the link is valid, proceed to download
-    echo "Downloading: $download_link"
-    wget -P "$download_dir" "$download_link"
-else
-    # If the link is not valid, log an error or skip
-    echo "Error: $download_link is not reachable or invalid."
+# Check if the file already is present in the folder
+if [ -f "$dest_file" ]; then
+    echo "File $file_name already exists, skipping download."
+  else
+    # Download the file if the link is valid
+    echo "Checking link: $download_link"
+    if wget --spider "$download_link" 2>/dev/null; then
+        # If the link is valid, proceed to download
+        echo "Downloading: $download_link"
+        wget -P "$download_dir" "$download_link"
+    else
+        # If the link is not valid, log an error or skip
+        echo "Error: $download_link is not reachable or invalid."
+    fi
 fi
 
-# If the file is zipped, then unzip it
-# Unzip the file if it exists and is a valid gzip or zip file
+# Attempt to unzip the file if it exists
 if [ -f "$dest_file" ]; then
-    # Check if the file is a gzip file using the 'file' command
-    if file "$dest_file" | grep -q "gzip compressed data"; then
+    file_type=$(file -b "$dest_file")
+
+    if echo "$file_type" | grep -q "gzip compressed data"; then
         echo "Unzipping (gzip): $dest_file"
         gunzip "$dest_file"
-    elif file "$dest_file" | grep -q "Zip archive data"; then
+    elif echo "$file_type" | grep -q "Zip archive data"; then
         echo "Unzipping (zip): $dest_file"
         unzip "$dest_file" -d "$download_dir"
     else
-        echo "Error: $dest_file is neither a gzip nor a zip file."
+        echo "File $file_name is not a recognized compressed format. Skipping extraction."
     fi
 else
-    echo "Error: $dest_file not found."
+    echo "Error: File $dest_file not found after download."
+    exit 1
 fi
 
+echo "Download and processing completed successfully!"
 echo "Download check and process completed!"
