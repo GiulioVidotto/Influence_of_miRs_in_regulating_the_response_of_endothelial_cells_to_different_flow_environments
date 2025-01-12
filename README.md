@@ -12,7 +12,8 @@ This study investigated the role of flow-responsive micro-RNAs (miRNAs) in endot
     ```bash
     bash download_public_data.sh
     ```
-   This script creates a new directory in your home directory (`$HOME/project_data`). Inside this directory, there are other sub-directories to store different files from different websites.
+    This script creates a new directory in your home directory (`$HOME/project_data`). Inside this directory, there are other sub-directories to store different files from different websites.
+    ```bash
     project_data/                   # Main directory for all project-related data
     ├── miR_database/               # Contains data from various miRNA databases
     │   ├── miRBase_database/       # Data from miRBase
@@ -28,5 +29,6 @@ This study investigated the role of flow-responsive micro-RNAs (miRNAs) in endot
     │       ├── chr1.fa             # Chromosome 1 sequence
     │       ├── chr2.fa             # Chromosome 2 sequence
     │       └── ...                 # Other chromosomes
-3. Download the data obtained in the lab:
+    ```
+4. Download the data obtained in the lab:
     > **⚠️ Note:** The databases associated with this study will be released alongside the research paper.
