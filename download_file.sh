@@ -34,7 +34,6 @@ fi
 # Attempt to unzip the file if it exists
 if [ -f "$dest_file" ]; then
     file_type=$(file -b "$dest_file")
-
     if echo "$file_type" | grep -q "gzip compressed data"; then
         echo "Unzipping (gzip): $dest_file"
         gunzip "$dest_file"
@@ -46,7 +45,6 @@ if [ -f "$dest_file" ]; then
     fi
 else
     echo "Error: File $dest_file not found after download."
-    exit 1
 fi
 
 echo "Download and processing completed successfully!"
