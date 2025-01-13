@@ -18,43 +18,40 @@ dest_file="$download_dir/$file_name"
 # Check if the file already is present in the folder
 if [ -f "$dest_file" ]; then
     echo "File $file_name already exists, skipping download."
-  else
+else
     # Download the file if the link is valid
     echo "Checking link: $download_link"
     if wget --spider "$download_link" 2>/dev/null; then
         # If the link is valid, proceed to download
         echo "Downloading: $download_link"
         wget -P "$download_dir" "$download_link"
+        # Attempt to unzip the file if it exists
+        if [ -f "$dest_file" ]; then
+            # Check for decompressed version
+            decompressed_file="${dest_file%.gz}" # For gzip files
+            decompressed_file_zip="${file_name%.zip}" # For zip files
+            if [ -f "$download_dir/$decompressed_file" ] || [ -d "$download_dir/$decompressed_file_zip" ]; then
+                echo "File $file_name is already decompressed. Skipping extraction."
+            else
+                # Determine the file type
+                file_type=$(file -b "$dest_file")
+                if echo "$file_type" | grep -q "gzip compressed data"; then
+                    echo "Unzipping (gzip): $dest_file"
+                    gunzip "$dest_file"
+                elif echo "$file_type" | grep -q "Zip archive data"; then
+                    echo "Unzipping (zip): $dest_file"
+                    unzip -o "$dest_file" -d "$download_dir"
+                else
+                    echo "File $file_name is not a recognized compressed format. Skipping extraction."
+                fi
+            fi
+        else
+            echo "Error: File $dest_file not found after download."
+        fi
     else
         # If the link is not valid, log an error or skip
         echo "Error: $download_link is not reachable or invalid."
     fi
-fi
-
-# Attempt to unzip the file if it exists
-if [ -f "$dest_file" ]; then
-    # Check for decompressed version
-    decompressed_file="${dest_file%.gz}" # For gzip files
-    decompressed_file_zip="${file_name%.zip}" # For zip files
-
-    if [ -f "$decompressed_file" ] || [ -d "$download_dir/$decompressed_file_zip" ]; then
-        echo "File $file_name is already decompressed. Skipping extraction."
-    else
-        # Determine the file type
-        file_type=$(file -b "$dest_file")
-
-        if echo "$file_type" | grep -q "gzip compressed data"; then
-            echo "Unzipping (gzip): $dest_file"
-            gunzip "$dest_file"
-        elif echo "$file_type" | grep -q "Zip archive data"; then
-            echo "Unzipping (zip): $dest_file"
-            unzip "$dest_file" -d "$download_dir"
-        else
-            echo "File $file_name is not a recognized compressed format. Skipping extraction."
-        fi
-    fi
-else
-    echo "Error: File $dest_file not found after download."
 fi
 
 echo "Download and processing completed successfully!"
