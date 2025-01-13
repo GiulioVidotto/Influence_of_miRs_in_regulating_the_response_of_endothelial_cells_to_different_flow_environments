@@ -49,15 +49,10 @@ Before running the script, ensure you have the following installed:
     ```R
     setwd(list.files("Influence_of_miRs_in_regulating_the_response_of_endothelial_cells_to_different_flow_environments", full.names = TRUE)
     ```
-5. This script installs and loads all the required R libraries for the project. You only need to run this script once, to make sure your environment is ready. To run the script on R or Rstudio:
+5. This script installs and loads all the required R libraries and function for the project. You only need to run this script once, to make sure your environment is ready. To run the script on R or Rstudio:
     ```R
-    source("install_libraries.R")
+    source("load_functions_and_libraries_in_R_env.R")
     ```
-6. This script will run all the functions used in the project, so they will be availabe in the enviroment. To run the script on R or Rstudio:
-    ```R
-    source("load_functions_in_R_env.R")
-    ```
-
     
 ## Download the data
 
