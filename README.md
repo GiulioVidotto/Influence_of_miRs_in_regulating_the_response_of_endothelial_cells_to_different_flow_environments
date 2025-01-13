@@ -42,6 +42,7 @@ Before running the script, ensure you have the following installed:
         ```
     
 ### R Setup
+
 1. Install R from CRAN (https://cran.r-project.org/mirrors.html) or use your package manager to install it.
 2. Optional: download Rstudio (https://posit.co/downloads/)
 3. Open R or Rstudio 
@@ -85,17 +86,20 @@ This project depends on public available data and data obtained from lab experim
     │   └── tarBase_database/                            # data from TarBase
     │       └── Homo_sapiens_TarBase-v9.tsv              # miRNA-mRNA interaction data from TarBase
     ├── genome_data/                                     # Contains genomic data files
-    │   ├── bed_and_fasta_file/                          # Genome data in BED and FASTA formats
-    │   └── chr_fasta_file/                              # Chromosome files in FASTA format
-    │       ├── chr1.fa                                  # Chromosome 1 sequence
-    │       ├── chr2.fa                                  # Chromosome 2 sequence
-    │       ├── ...                                      # Other chromosomes (from chr3 to chr22)
-    │       ├── chrX.fa                                  # Chromosome X sequence
-    │       ├── chrY.fa                                  # Chromosome Y sequence
-    │       └── chrM.fa                                  # Mitochondrial DNA sequence
-    ```
+        ├── bed_and_fasta_file/                          # Genome data in BED and FASTA formats
+        └── chr_fasta_file/                              # Chromosome files in FASTA format
+            ├── chr1.fa                                  # Chromosome 1 sequence
+            ├── chr2.fa                                  # Chromosome 2 sequence
+            ├── ...                                      # Other chromosomes (from chr3 to chr22)
+            ├── chrX.fa                                  # Chromosome X sequence
+            ├── chrY.fa                                  # Chromosome Y sequence
+            └── chrM.fa                                  # Mitochondrial DNA sequence
+    
 2. Download the data obtained in the lab:
     > **⚠️ Note:** The lab data associated with this study will be released alongside the research paper (a folder with this data will be added to the project_data folder)
 
 ## Upload the data on R or Rstudio
+
+For this project, four miRNA-mRNA interaction public repositories were considered (miRTarBase v9.0, targetScan v8.0, miRDB v6.0, tarBase v9.0). In the previous step, the miRNA-mRNA interaction files from these repositories were downloaded and the following script loads these files on R or Rstudio. Alongside loading the data, the script will run a check on the miRNA notation based on the one used in miRBase (Release 22.1). 
+The scripts are stored in the folder called "". To upload the data from miRDB and miRTarBase, it is required to use Biomart (https://useast.ensembl.org/info/data/biomart/index.html) to obtain columns not present in the original datasets.
 
