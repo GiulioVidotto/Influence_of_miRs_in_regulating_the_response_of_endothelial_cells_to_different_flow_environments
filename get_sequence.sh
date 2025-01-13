@@ -4,11 +4,11 @@ chr_num_array=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15"
 # For loop that iterates through all the sample numbers
 for chr_num in "${chr_num_array[@]}"; do
     # Define the bed_file name
-    bed_file="$HOME/project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_bed_file/3UTR_poly_A_regions_chr${chr_num}.bed"
+    bed_file="$(pwd)/project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_bed_file/3UTR_poly_A_regions_chr${chr_num}.bed"
     # Define the name of the fasta file of the chromosome
-    chr_fasta_file="$HOME/project_data/genome_data/bed_and_fasta_file/chr_fasta_file/chr${chr_num}.fa"
+    chr_fasta_file="$(pwd)/project_data/genome_data/bed_and_fasta_file/chr_fasta_file/chr${chr_num}.fa"
     # Define the sequence_output name
-    sequence_output="$HOME/project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_DNA/3UTR_with_poly_A_sequences_on_chr${chr_num}.fa"
+    sequence_output="$(pwd)/project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_DNA/3UTR_with_poly_A_sequences_on_chr${chr_num}.fa"
     # Check if the required files and directories exist
     if [ ! -f "$bed_file" ]; then
         echo "Error: BED file $bed_file not found. Skipping chromosome $chr_num."
