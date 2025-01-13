@@ -85,7 +85,7 @@ This project depends on public available data and data obtained from lab experim
     │   │   └── miRTarBase_MTI.xlsx                      # miRNA-mRNA interaction data from miRTarBase
     │   └── tarBase_database/                            # data from TarBase
     │       └── Homo_sapiens_TarBase-v9.tsv              # miRNA-mRNA interaction data from TarBase
-    ├── genome_data/                                     # Contains genomic data files
+    └── genome_data/                                     # Contains genomic data files
         ├── bed_and_fasta_file/                          # Genome data in BED and FASTA formats
         └── chr_fasta_file/                              # Chromosome files in FASTA format
             ├── chr1.fa                                  # Chromosome 1 sequence
