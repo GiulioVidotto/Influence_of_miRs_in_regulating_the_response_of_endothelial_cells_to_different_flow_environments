@@ -1,6 +1,6 @@
 # Influence of miRs in regulating the response of endothelial cells to different flow environments
 
-This repository contains the code that I wrote study investigated the role of flow-responsive micro-RNAs (miRNAs) in endothelial cells (ECs). The findings of this project provided new insights into the molecular mechanisms governing endothelial function in vascular health and disease. Further details and results will be shared upon the publication of the associated research paper.
+This repository contains the code that I wrote for the study that investigated the role of flow-responsive micro-RNAs (miRNAs) in endothelial cells (ECs). The findings of this project provided new insights into the molecular mechanisms governing endothelial function in vascular health and disease. Further details and results will be shared upon the publication of the associated research paper.
 
 ## Installation
 
@@ -8,15 +8,72 @@ This repository contains the code that I wrote study investigated the role of fl
     ```bash
     git clone https://github.com/GiulioVidotto/Influence_of_miRs_in_regulating_the_response_of_endothelial_cells_to_different_flow_environments.git
     ```
-2. Download the data:
-    This project depends on public available data and data obtained from lab experiments.
-    2.1 Download the data obtained in the lab:
-    > **⚠️ Note:** The lab data associated with this study will be released alongside the research paper.
-    2.2 Download the public data:
+    
+2. Navigate to the cloned repository:
     ```bash
-    bash download_public_data.sh
+    cd Influence_of_miRs_in_regulating_the_response_of_endothelial_cells_to_different_flow_environments.git
     ```
-    This script creates a new directory in your home directory (`$HOME/project_data`). Inside this directory, there are other sub-directories to store different files from different websites.
+    
+## Requisites for the analysis
+
+### System dependencies:
+
+Before running the script, ensure you have the following installed:
+1. **`unzip`** (to extract `.zip` files):
+    - For **Ubuntu**, run:
+        ```bash
+        sudo apt update
+        sudo apt install unzip
+        ```
+    - For **macOS**:
+        ```bash
+        brew install unzip
+        ```
+    - For **WSL (Windows Subsystem for Linux)**:
+        ```bash
+        sudo apt update
+        sudo apt install unzip
+        ```
+
+2. **`wget`** (to download files from the web):
+   - This is usually pre-installed on most systems. If not, install it using:
+        ```bash
+        sudo apt install wget
+        ```
+    
+### R Setup
+1. Install R from CRAN (https://cran.r-project.org/mirrors.html) or use your package manager to install it.
+2. Optional: download Rstudio (https://posit.co/downloads/)
+3. Open R or Rstudio 
+4. Set the current working directory to the cloned repository. To set the working directory on R or Rstudio, use:
+    ```R
+    setwd(list.files("Influence_of_miRs_in_regulating_the_response_of_endothelial_cells_to_different_flow_environments", full.names = TRUE)
+    ```
+5. This script installs and loads all the required R libraries for the project. You only need to run this script once, to make sure your environment is ready. To run the script on R or Rstudio:
+    ```R
+    source("install_libraries.R")
+    ```
+6. This script will run all the functions used in the project, so they will be availabe in the enviroment. To run the script on R or Rstudio:
+    ```R
+    source("load_functions_in_R_env.R")
+    ```
+
+    
+## Download the data
+
+This project depends on public available data and data obtained from lab experiments.
+1. Download the public data:
+    Make the scripts for downloading public data executable:
+    ```bash
+    chmod +x download_file.sh            # script for download a specific file
+    chmod +x download_public_data.sh     # script containing the links of the files that will be downloaded in defined paths (this script uses download_file.sh to download the files)
+    ```
+    The script will automatically download files based on the current working directory, which will now be inside the cloned repository (after executing step 3)
+    ```bash
+    bash ./download_public_data.sh
+    ```
+    Specifically, this script creates a new directory called "project_data" in the current working directory. Inside this directory, there are other sub-directories to store different files from different websites.
+    > **⚠️ Note:** At the moment the link to download the miRNA-mRNA interaction data from miRTarBase is not working as their website is currently unavailable (https://mirtarbase.cuhk.edu.cn/~miRTarBase/miRTarBase_2022/php/index.php).
     ```bash
     project_data/                                        # Main directory for all project-related data
     ├── miR_database/                                    # Contains data from various miRNA databases
@@ -42,5 +99,8 @@ This repository contains the code that I wrote study investigated the role of fl
     │       ├── chrY.fa                                  # Chromosome Y sequence
     │       └── chrM.fa                                  # Mitochondrial DNA sequence
     ```
-4. 
-    
+2. Download the data obtained in the lab:
+    > **⚠️ Note:** The lab data associated with this study will be released alongside the research paper (a folder with this data will be added to the project_data folder)
+
+## Upload the data on R or Rstudio
+
