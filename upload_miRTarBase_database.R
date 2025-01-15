@@ -7,7 +7,7 @@
 #   miRTarBase accumulates over 360,000 MTIs collected from literature using NLP techniques.
 #   The interactions are experimentally validated by reporter assays, western blot, microarray, and sequencing.
 #   It includes data from 30 species, but this script focuses on human interactions.
-
+#
 # Columns in the database:
 # 1) miRTarBase ID
 # 2) miRNA
@@ -18,16 +18,8 @@
 # 7) Experiments
 # 8) Support Type
 # 9) References (PMID)
-
-# Purpose of this Script:
-# - Filter the database to include only human miRNAs (hsa).
-# - Map NCBI IDs to Ensembl IDs using Ensembl Biomart.
-# - Save the processed data for further analysis.
-
-# Instructions:
-# 1. Set the working directory to the location of the script or your preferred folder.
-# 2. Ensure the required libraries (dplyr, readxl) are installed.
-# 3. Follow the numbered sections below step-by-step.
+#
+# The database has been filtered as we can see below:
 
 # --- 1. Get Working Directory ---
 # As stated in the README file on github, the working directory should have been set to the cloned github repository
@@ -54,9 +46,9 @@ miRTarBase_database_NCBI_gene <- miRTarBase_human_database %>%
 # Write the columns of NCBI gene IDs in a cvs file and export it to use it in Ensembl Biomart (the exported file is called "miRTarBase_database_NCBI_gene")
 write.csv(miRTarBase_database_NCBI_gene, file.path(paste0(working_directory_path, "/miR_databases/mirTarBase_database/miRTarBase_database_NCBI_gene")), row.names = FALSE)
 
-# Between Step and 5 we used Ensembl Biomart to convert NCBI gene IDs into Ensembl gene IDs. We used the just saved file "miRTarBase_database_NCBI_gene", which
-# contains the list of NCBI gene IDs, as input in Ensembl Biomart. Among the choosen attributes, there were Gene.stable.ID (Ensembl gene ID), NCBI.gene..formerly.Entrezgene..ID
-# (NCBI gene IDs) and Chromosome.scaffold.name to consider only the canonical chromosomes and no alternative versions.
+# Between Step 4 and 5 we used Ensembl Biomart (https://www.ensembl.org/info/data/biomart/index.html) to convert NCBI gene IDs into Ensembl gene IDs. We used the just saved file
+# "miRTarBase_database_NCBI_gene", which contains the list of NCBI gene IDs, as input in Ensembl Biomart. Among the choosen attributes, there were Gene.stable.ID (Ensembl gene ID),
+# NCBI.gene..formerly.Entrezgene..ID (NCBI gene IDs) and Chromosome.scaffold.name to consider only the canonical chromosomes and no alternative versions.
 
 # --- 5. Import Ensembl Gene IDs ---
 # After having used Ensembl Biomart and converted the NCBI IDs into Ensembl IDs, import the file with the new information (called "mirTarBase_database_ENSEMBL_gene.txt")
