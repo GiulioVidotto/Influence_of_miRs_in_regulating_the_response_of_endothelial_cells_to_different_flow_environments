@@ -42,7 +42,7 @@ current_working_directory <- getwd()
 
 # --- 2. Import the TarBase Database ---
 # Define the path to the TarBase database file.
-path_tarBase_database <- paste0(working_directory_path, "/miR_databases/tarBase_database/Homo_sapiens_TarBase-v9.tsv")
+path_tarBase_database <- paste0(current_working_directory, "/miR_databases/tarBase_database/Homo_sapiens_TarBase-v9.tsv")
 tarBase_database <- read.delim(path_tarBase_database,
                                stringsAsFactors = FALSE,
                                header = TRUE)
