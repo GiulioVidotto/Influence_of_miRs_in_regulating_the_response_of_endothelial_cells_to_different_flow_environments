@@ -27,7 +27,7 @@ current_working_directory <- getwd()
 
 # --- 2. Import the Database ---
 # Define the path to the miRTarBase database
-path_miRTarBase_database <- paste0(working_directory_path, "/miR_databases/mirTarBase_database/miRTarBase_MTI.xlsx")
+path_miRTarBase_database <- paste0(current_working_directory, "/miR_databases/mirTarBase_database/miRTarBase_MTI.xlsx")
 # Import the miRTarBase database (this will read the Excel file and store it as a dataframe)
 miRTarBase_database <- readxl::read_excel(path_miRTarBase_database,
                                           na = "")
