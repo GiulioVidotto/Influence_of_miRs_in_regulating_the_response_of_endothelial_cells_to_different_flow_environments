@@ -50,4 +50,4 @@ for (file in chr_coordinates_list) {
   write.table(file, file.path(paste0(output_dir, "/", file_name, ".bed")), row.names = FALSE, quote=FALSE, sep = "\t")
 }
 
-# This files will be used as input to the get_sequence.sh script. This script extracts the DNA sequences of the genes based on the coordinates given as input.
+# These files will be used as input to the get_sequence.sh script. This script extracts the DNA sequences of the genes based on the coordinates given as input.
