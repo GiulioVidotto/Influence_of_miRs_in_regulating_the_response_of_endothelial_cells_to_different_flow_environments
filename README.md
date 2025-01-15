@@ -21,25 +21,25 @@ This repository contains the code that I wrote for the study that investigated t
 Before running the script, ensure you have the following installed:
 1. **`unzip`** (to extract `.zip` files):
     - For **Ubuntu**, run:
-        ```bash
-        sudo apt update
-        sudo apt install unzip
-        ```
+    ```bash
+    sudo apt update
+    sudo apt install unzip
+    ```
     - For **macOS**:
-        ```bash
-        brew install unzip
-        ```
+    ```bash
+    brew install unzip
+    ```
     - For **WSL (Windows Subsystem for Linux)**:
-        ```bash
-        sudo apt update
-        sudo apt install unzip
-        ```
+    ```bash
+    sudo apt update
+    sudo apt install unzip
+    ```
 
 2. **`wget`** (to download files from the web):
-   - This is usually pre-installed on most systems. If not, install it using:
-        ```bash
-        sudo apt install wget
-        ```
+    - This is usually pre-installed on most systems. If not, install it using:
+    ```bash
+    sudo apt install wget
+    ```
     
 ### R Setup
 
