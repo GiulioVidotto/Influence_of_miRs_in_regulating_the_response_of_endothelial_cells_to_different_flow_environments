@@ -100,6 +100,27 @@ This project depends on public available data and data obtained from lab experim
 
 ## Upload the data on R or Rstudio
 
-For this project, four miRNA-mRNA interaction public repositories were considered (miRTarBase v9.0, targetScan v8.0, miRDB v6.0, tarBase v9.0). In the previous step, the miRNA-mRNA interaction files from these repositories were downloaded. The scripts contained in the folder called "upload_public_databases_R_scripts" load the public data on R or Rstudio. Alongside loading the data, the scripts will run a check on the miRNA notation based on the one used in miRBase (Release 22.1). 
+For this project, four miRNA-mRNA interaction public repositories were considered (miRTarBase v9.0, targetScan v8.0, miRDB v6.0, tarBase v9.0). In the previous step, the miRNA-mRNA interaction files from these repositories were downloaded. The scripts contained in the folder called "upload_public_databases_R_scripts" load the public data on R or Rstudio. Alongside loading the data, the scripts will run a check on the miRNA notation based on the one used in miRBase (Release 22.1).
 To upload the data, open R or Rstudio and follow the instructions on the scripts. To upload the data from miRDB and miRTarBase, it is required to use Biomart (https://useast.ensembl.org/info/data/biomart/index.html) to obtain columns not present in the original datasets. At the end of each script, a new file with the repository data and the controlled miRNA notation is stored in a folder called "final_outputs". This new folder is created as a subfolder of the miR_databases folder.
+
+## miRNA-mRNA interaction analysis
+
+### Calculate the minimum free energy (MFE) of each miRNA-mRNA interaction
+
+To calculate the minimum free energy (MFE) of each interaction, the sequences of the miRNAs and of the 3'UTR regions on the mRNAs were considered. The sequences of the miRNAs were obtained from miRBAse (Release 22.1) while the sequences of the 3'UTR regions of the mRNAs were obtained using a software called APAtrap (https://sourceforge.net/p/apatrap/wiki/User%20Manual/). To obtain the wanted regions, we used the bedgraph files as input and followed the instruction on the APAtrap website. After obtaining the sequences of both biological molecules, we used the scripts contained in the folder called MFE_scripts to calculate the MFE of each iteraction. Specifically:
+1. Use the bedgraph files as inputs for the APAtrap function and save the output file as "all_APA_output_chr.txt". This file must be saved in a new subfolder of "genome_data" folder called "APA_output".
+2. Open R or Rstudio and run the script "updating_gene_coordinates_based_on_poly_A_location.R". This script loads the APA output file (generated using APAtrap) and processes it to update the stop coordinates of each mRNA based on the furthest poly-A site. The script outputs a separate BED graph file for each chromosome, storing the updated coordinates of the 3'UTR region for all mRNAs on that chromosome. These bedgraph files are stored in a new folder ("./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_bed_file") where each file has the following name: "3UTR_poly_A_regions_chr[chromosome number]".
+3. Run the script called "get_sequence.sh" from the shell. This script takes as input the bed files obtained at the previous step to obtain the DNA sequences corresponding to the 3'UTR region coordinates of each mRNA. To run this script:
+    ```bash
+    bash ./MFE_scripts/get_sequence.sh
+    ```
+4. Run the script called "DNA_to_mRNA.sh" to tranform the DNA sequences obtained at the previous step into mRNA sequences. This script accepts as input the name of the files that stores the DNA sequences of the 3'UTR regions. To run the script:
+    ```bash
+    bash ./MFE_scripts/DNA_to_mRNA.sh <DNA_SEQUENCE_FILE> # Substitute <DNA_SEQUENCE_FILE> with the name of the file 3UTR_with_poly_A_sequences_on_chr[chromosome number]
+    ```
+5. Lastly, run the script "get_MFE_function.sh" to obtain the MFE values of each interaction. To run the script:
+    ```bash
+    bash ./MFE_scripts/get_MFE_function.sh <TARGET_QUERY_FILE> <GENE_SEQ_FILE> <MIRNA_SEQ_FILE>
+    ```
+
 
