@@ -1,8 +1,8 @@
 # SCRIPT TO GET THE COORDINATES OF EVERY GENE BASED ON THE FURTHEST POLY-A SITE
 
-# This script uses as input the file obtained from APAtrap (this file is the concatenation of all the chromosome files obtain from predictAPA.
-# We have multiple files because predictAPA takes a long time to run and so we tried to run the process in parallel) to update the stop 
-# position of each mRNA with the furthest poly-A site and in the end the user will obtain a bed file with the updated information.
+# This script uses as input the file obtained from APAtrap to update the stop 
+# position of each mRNA with the furthest poly-A site and in the end the user
+# will obtain a bed file with the updated information.
 
 # 1) Use the function update_stop_codon to update the stop position of each mRNA
 ## First define the name of the file
