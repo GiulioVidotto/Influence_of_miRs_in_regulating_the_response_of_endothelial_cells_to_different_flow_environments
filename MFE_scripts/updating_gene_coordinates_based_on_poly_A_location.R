@@ -6,7 +6,8 @@
 
 # 1) Use the function update_stop_codon to update the stop position of each mRNA
 ## First define the name of the file
-APA_output_path <- paste0(path.expand("~"), "/project_data/genome_data/APA_output/all_APA_output_chr.txt")
+current_working_directory <- getwd()
+APA_output_path <- paste0(current_working_directory, "/project_data/genome_data/APA_output/all_APA_output_chr.txt")
 
 ## Apply the function update_stop_coord
 tryCatch({
