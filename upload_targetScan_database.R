@@ -28,8 +28,16 @@ current_working_directory <- getwd()
 
 # --- 2. Import Conserved and Nonconserved Context Scores ---
 # Define paths to the TargetScan database files
-path_targetScan_conserved_site <- paste0(working_directory_path, "/miR_databases/targetScan_database/Conserved_Site_Context_Scores.txt")
-path_targetScan_non_conserved_site <- paste0(working_directory_path, "/miR_databases/targetScan_database/Nonconserved_Site_Context_Scores.txt")
+path_targetScan_conserved_site <- paste0(current_working_directory, "/project_data/miR_databases/targetScan_database/Conserved_Site_Context_Scores.txt")
+# Check if the file exists before importing
+if (!file.exists(path_targetScan_conserved_site)) {
+  stop("Error: The file was not found in the specified directory.")
+}
+path_targetScan_non_conserved_site <- paste0(current_working_directory, "/project_data/miR_databases/targetScan_database/Nonconserved_Site_Context_Scores.txt")
+# Check if the file exists before importing
+if (!file.exists(path_targetScan_non_conserved_site)) {
+  stop("Error: The file was not found in the specified directory.")
+}
 
 # Import the conserved site context scores
 targetScan_conserved_site <- read.delim(path_targetScan_conserved_site, stringsAsFactors = FALSE)
@@ -101,7 +109,12 @@ targetScan_database_missing <- targetScan_database_checked%>%
 # not specified as they should. To extract additional information to be able to confirm the "specifications" of these problematic
 # miRNA, the column about the miRBase Accession Numbers has been used.
 # All the following operation are done to add information to the targetScan_database_missing database
-path_targetscan_MAN_database <- paste0(working_directory_path, "/miR_databases/targetScan_database/miR_Family_Info.txt")
+path_targetscan_MAN_database <- paste0(current_working_directory, "/project_data/miR_databases/targetScan_database/miR_Family_Info.txt")
+# Check if the file exists before importing
+if (!file.exists(path_targetscan_MAN_database)) {
+  stop("Error: The file was not found in the specified directory.")
+}
+# Import the dataset
 targetscan_MAN_database <- read.delim(path_targetscan_MAN_database, stringsAsFactors = FALSE, header = TRUE)
 
 # Get only the miRNA in Homo sapiens and the two coulmns of interest (MiRBase.Accession and MiRBase.ID)
@@ -134,4 +147,4 @@ output_targetScan_database <- check_ID(miRBase_database, targetscan_output_datab
 
 # --- 10. Save the Final Output ---
 # Save the final output file in the specified folder
-write.csv(output_targetScan_database, file.path(paste0(working_directory_path, "/miR_databases/final_outputs/output_targetScan_database.csv")), row.names = FALSE)
+write.csv(output_targetScan_database, file.path(paste0(current_working_directory, "/project_data/miR_databases/final_outputs/output_targetScan_database.csv")), row.names = FALSE)

@@ -27,7 +27,11 @@ current_working_directory <- getwd()
 
 # --- 2. Import the Database ---
 # Define the path to the miRTarBase database
-path_miRTarBase_database <- paste0(current_working_directory, "/miR_databases/mirTarBase_database/miRTarBase_MTI.xlsx")
+path_miRTarBase_database <- paste0(current_working_directory, "/project_data/miR_databases/mirTarBase_database/miRTarBase_MTI.xlsx")
+# Check if the file exists before importing
+if (!file.exists(path_miRTarBase_database)) {
+  stop("Error: The file was not found in the specified directory.")
+}
 # Import the miRTarBase database (this will read the Excel file and store it as a dataframe)
 miRTarBase_database <- readxl::read_excel(path_miRTarBase_database,
                                           na = "")
@@ -44,7 +48,7 @@ miRTarBase_human_database <- miRTarBase_database %>%
 miRTarBase_database_NCBI_gene <- miRTarBase_human_database %>% 
   dplyr::select(NCBI_IDs)
 # Write the columns of NCBI gene IDs in a cvs file and export it to use it in Ensembl Biomart (the exported file is called "miRTarBase_database_NCBI_gene")
-write.csv(miRTarBase_database_NCBI_gene, file.path(paste0(working_directory_path, "/miR_databases/mirTarBase_database/miRTarBase_database_NCBI_gene")), row.names = FALSE)
+write.csv(miRTarBase_database_NCBI_gene, file.path(paste0(current_working_directory, "/project_data/miR_databases/mirTarBase_database/miRTarBase_database_NCBI_gene.csv")), row.names = FALSE)
 
 # Between Step 4 and 5 we used Ensembl Biomart (https://www.ensembl.org/info/data/biomart/index.html) to convert NCBI gene IDs into Ensembl gene IDs. We used the just saved file
 # "miRTarBase_database_NCBI_gene", which contains the list of NCBI gene IDs, as input in Ensembl Biomart. Among the choosen attributes, there were Gene.stable.ID (Ensembl gene ID),
@@ -52,7 +56,12 @@ write.csv(miRTarBase_database_NCBI_gene, file.path(paste0(working_directory_path
 
 # --- 5. Import Ensembl Gene IDs ---
 # After having used Ensembl Biomart and converted the NCBI IDs into Ensembl IDs, import the file with the new information (called "mirTarBase_database_ENSEMBL_gene.txt")
-path_miRTarBase_ENSEMBL_gene <- paste0(working_directory_path, "/miR_databases/mirTarBase_database/mirTarBase_database_ENSEMBL_gene.txt")
+path_miRTarBase_ENSEMBL_gene <- paste0(current_working_directory, "/project_data/miR_databases/mirTarBase_database/mirTarBase_database_ENSEMBL_gene.txt")
+# Check if the file exists before importing
+if (!file.exists(path_miRTarBase_ENSEMBL_gene)) {
+  stop("Error: The file was not found in the specified directory.")
+}
+# import the dataset
 miRTarBase_database_ENSEMBL_gene <- read.table(path_miRTarBase_ENSEMBL_gene, stringsAsFactors = FALSE, sep = ",", header = TRUE)
 
 # --- 6. Filter Ensembl Database for Standard Chromosomes ---
@@ -85,4 +94,4 @@ output_miRTarBase_database <- check_ID(miRBase_database, miRTarBase_human_databa
 
 # --- 11. Save Final Output ---
 # Save the final comparison output to the "final_outputs" folder
-write.csv(output_miRTarBase_database, file.path(paste0(working_directory_path, "/miR_databases/final_outputs/output_miRTarBase_database.csv")), row.names = FALSE)
+write.csv(output_miRTarBase_database, file.path(paste0(current_working_directory, "/project_data/miR_databases/final_outputs/output_miRTarBase_database.csv")), row.names = FALSE)

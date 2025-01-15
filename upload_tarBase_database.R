@@ -42,7 +42,12 @@ current_working_directory <- getwd()
 
 # --- 2. Import the TarBase Database ---
 # Define the path to the TarBase database file.
-path_tarBase_database <- paste0(current_working_directory, "/miR_databases/tarBase_database/Homo_sapiens_TarBase-v9.tsv")
+path_tarBase_database <- paste0(current_working_directory, "/project_data/miR_databases/tarBase_database/Homo_sapiens_TarBase-v9.tsv")
+# Check if the file exists before importing
+if (!file.exists(path_tarBase_database)) {
+  stop("Error: The file was not found in the specified directory.")
+}
+# Import the dataset
 tarBase_database <- read.delim(path_tarBase_database,
                                stringsAsFactors = FALSE,
                                header = TRUE)
@@ -65,4 +70,4 @@ output_tarBase_database <- check_ID(miRBase_database, tarBase_human_database)
 
 # --- 6. Save the Output File ---
 # Save the file file in the final_outputs folder
-write.csv(output_tarBase_database, file.path(paste0(working_directory_path,"/miR_databases/final_outputs/output_tarBase_database")), row.names = FALSE)
+write.csv(output_tarBase_database, file.path(paste0(current_working_directory,"/project_data/miR_databases/final_outputs/output_tarBase_database.csv")), row.names = FALSE)
