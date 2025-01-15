@@ -69,5 +69,15 @@ tarBase_human_database <- tarBase_human_database %>%
 output_tarBase_database <- check_ID(miRBase_database, tarBase_human_database)
 
 # --- 6. Save the Output File ---
+# Specify the path for the new folder
+folder_path <- paste0(current_working_directory, "/project_data/miR_databases/final_outputs")
+
+# Check if the folder exists, and create it if it doesn't
+if (!file.exists(folder_path)) {
+  dir.create(folder_path, recursive = TRUE)
+  cat("Folder created:", folder_path, "\n")
+} else {
+  cat("Folder already exists:", folder_path, "\n")
+}
 # Save the file file in the final_outputs folder
 write.csv(output_tarBase_database, file.path(paste0(current_working_directory,"/project_data/miR_databases/final_outputs/output_tarBase_database.csv")), row.names = FALSE)

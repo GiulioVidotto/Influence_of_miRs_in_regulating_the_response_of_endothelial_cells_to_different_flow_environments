@@ -93,5 +93,15 @@ miRTarBase_human_database <- left_join(miRTarBase_human_database, miRTarBase_dat
 output_miRTarBase_database <- check_ID(miRBase_database, miRTarBase_human_database)
 
 # --- 11. Save Final Output ---
+# Specify the path for the new folder
+folder_path <- paste0(current_working_directory, "/project_data/miR_databases/final_outputs")
+
+# Check if the folder exists, and create it if it doesn't
+if (!file.exists(folder_path)) {
+  dir.create(folder_path, recursive = TRUE)
+  cat("Folder created:", folder_path, "\n")
+} else {
+  cat("Folder already exists:", folder_path, "\n")
+}
 # Save the final comparison output to the "final_outputs" folder
 write.csv(output_miRTarBase_database, file.path(paste0(current_working_directory, "/project_data/miR_databases/final_outputs/output_miRTarBase_database.csv")), row.names = FALSE)

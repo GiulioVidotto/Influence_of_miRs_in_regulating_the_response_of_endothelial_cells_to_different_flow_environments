@@ -146,5 +146,15 @@ targetscan_output_database <- rbind(targetScan_database_perfect_match, targetsca
 output_targetScan_database <- check_ID(miRBase_database, targetscan_output_database)
 
 # --- 10. Save the Final Output ---
+# Specify the path for the new folder
+folder_path <- paste0(current_working_directory, "/project_data/miR_databases/final_outputs")
+
+# Check if the folder exists, and create it if it doesn't
+if (!file.exists(folder_path)) {
+  dir.create(folder_path, recursive = TRUE)
+  cat("Folder created:", folder_path, "\n")
+} else {
+  cat("Folder already exists:", folder_path, "\n")
+}
 # Save the final output file in the specified folder
 write.csv(output_targetScan_database, file.path(paste0(current_working_directory, "/project_data/miR_databases/final_outputs/output_targetScan_database.csv")), row.names = FALSE)
