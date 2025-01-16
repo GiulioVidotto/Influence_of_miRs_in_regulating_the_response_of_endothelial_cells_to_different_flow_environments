@@ -11,6 +11,10 @@ library(clusterProfiler)
 
 
 # Libraries to install from CRAN
+# DESeq2 library
+install.packages("DESeq2")
+library(DESeq2)
+
 # UpSetR library
 install.packages("UpSetR")
 library(UpSetR)
