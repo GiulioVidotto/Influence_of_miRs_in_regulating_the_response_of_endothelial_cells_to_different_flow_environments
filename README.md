@@ -111,29 +111,40 @@ To upload the data, open R or Rstudio and follow the instructions on the scripts
 ### Calculate the minimum free energy (MFE) of each miRNA-mRNA interaction
 
 To calculate the minimum free energy (MFE) of each interaction, we considered the sequences of miRNAs and the 3'UTR regions of mRNAs.
-- miRNA Sequences: Obtained from miRBase (Release 22.1). The sequences are stored in the "mature.fa" file in "./project_data/miR_database/miRBase_database"
+- miRNA Sequences: Obtained from miRBase (Release 22.1). The sequences are stored in the `mature.fa` file in `./project_data/miR_database/miRBase_database`.
 - 3'UTR Regions of mRNAs: Extracted using APAtrap (https://sourceforge.net/p/apatrap/wiki/User%20Manual/#jump2).
 
 Step-by-Step Process:
 1. Extracting 3'UTR Regions:
-    Use bedgraph files as input for the APAtrap tool to identify poly-A sites. Save the output file as "all_APA_output_chr.txt" in a new subfolder of the "genome_data" folder named "APA_output".
+    Use bedgraph files as input for the APAtrap tool to identify poly-A sites. Create the following folder `./project_data/genomic_data/APA_output` and save within it the APAtrap output file as `all_APA_output_chr.txt`.
 2. Updating Gene Coordinates:
-    Run the R script "updating_gene_coordinates_based_on_poly_A_location.R" in R or RStudio.
-    - Input: APAtrap output file ("./project_data/genome_data/APA_output/all_APA_output_chr.txt").
-    - Output: Updated BED files with 3'UTR coordinates, saved in  `./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_bed_file/`. The scripts output multiple BED files based on the position of the corresponding gene of each mRNA on the chromosomes. Each file is named: 3UTR_poly_A_regions_chr[chromosome number].
-Obtaining DNA Sequences:
-
-Execute the shell script get_sequence.sh.
-Input: BED files from Step 2.
-Output: DNA sequences for the 3'UTR regions.
+    Run the R script updating_gene_coordinates_based_on_poly_A_location.R in R or RStudio.
+    - Input: APAtrap output file stored in `./project_data/genome_data/APA_output/all_APA_output_chr.txt`.
+    - Output: Updated BED files with 3'UTR coordinates, saved in `./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_bed_file/`. The script generates multiple BED files, each corresponding to a specific chromosome with the following file naming format `3UTR_poly_A_regions_chr[chromosome number].bed`. Each BED file contains the updated 3'UTR coordinates for mRNAs based on their chromosomal location.
+3. Obtaining DNA Sequences:
+    Execute the shell script get_sequence.sh.
+    - Input: BED files from Step 2.
+    - Output: DNA sequences for the 3'UTR regions that will be stored in `./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_mRNA/mRNA_${file}`
     ```bash
     bash ./MFE_scripts/get_sequence.sh
     ```
-4. Run the script called "DNA_to_mRNA.sh" to tranform the DNA sequences obtained at the previous step into mRNA sequences. This script accepts as input the name of the files that stores the DNA sequences of the 3'UTR regions. To run the script:
+4. Converting DNA to mRNA:
+    Use the script DNA_to_mRNA.sh to convert DNA sequences into mRNA sequences.
+    - Input: DNA sequence files from Step 3.
+    - Output: mRNA sequences.
+    Example command:3'UTR regions. To run the script:
     ```bash
     bash ./MFE_scripts/DNA_to_mRNA.sh <DNA_SEQUENCE_FILE> # Substitute <DNA_SEQUENCE_FILE> with the name of the file 3UTR_with_poly_A_sequences_on_chr[chromosome number]
     ```
-5. Lastly, run the script "get_MFE_function.sh" to obtain the MFE values of each interaction. This script integrates function from the ViennaRNA package. Based on the length of the 3'UTR region sequences we used different function to calculate the MFE values. For 3'UTR regions shorter than 2000 bp we used the "RNAup" function. For all the other sequences a combination of the functions called "RNAplfold" and "RNAplex" was used. To run the script:
+5. Run the script get_MFE_function.sh to calculate MFE values using tools from the ViennaRNA package.
+    Input:
+    - <TARGET_QUERY_FILE>: Target sequences.
+    - <GENE_SEQ_FILE>: mRNA sequences.
+    - <MIRNA_SEQ_FILE>: miRNA sequences.
+Logic:
+For 3'UTR sequences shorter than 2000 bp, the RNAup function was used.
+For longer sequences, a combination of RNAplfold and RNAplex functions was employed.
+Example command:
     ```bash
     bash ./MFE_scripts/get_MFE_function.sh <TARGET_QUERY_FILE> <GENE_SEQ_FILE> <MIRNA_SEQ_FILE>
     ```
