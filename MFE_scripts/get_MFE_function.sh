@@ -10,25 +10,29 @@ GENE_SEQ_FILE=$2
 # This is a fasta file with all the information regarding miRNAs
 MIRNA_SEQ_FILE=$3
 
+# Create the directory if it doesn't exist where the output files will be stored
+OUTPUT_DIR="$(pwd)/project_data/MFE_values"
+mkdir -p $OUTPUT_DIR
+
 if [[ "${TARGET_QUERY_FILE}" == "up"* ]]; then
 
   # If the script is analyzing interaction between up regulated miRNAs and their targets
-  OUTPUT_FILE="up_thermodynamics_scores_file"
+  OUTPUT_FILE="${OUTPUT_DIR}/up_thermodynamics_scores_file"
   
-  OUTPUT_FILE_RNA_up="up_thermodynamics_scores_file_rna_up"
+  OUTPUT_FILE_RNA_up="${OUTPUT_DIR}/up_thermodynamics_scores_file_rna_up"
   
   # Name of the folder where the accessibility profiles will be stored (for each interaction)
-  PROFILES_DIR="up_profiles"
+  PROFILES_DIR="${OUTPUT_DIR}/up_profiles"
   
 else
   
   # If the script is analyzing interaction between down regulated miRNAs and their targets
-  OUTPUT_FILE="down_thermodynamics_scores_file"
+  OUTPUT_FILE="${OUTPUT_DIR}/down_thermodynamics_scores_file"
   
-  OUTPUT_FILE_RNA_up="down_thermodynamics_scores_file_rna_up"
+  OUTPUT_FILE_RNA_up="${OUTPUT_DIR}/down_thermodynamics_scores_file_rna_up"
   
   # Name of the folder where the accessibility profiles will be stored (for each interaction)
-  PROFILES_DIR="down_profiles"
+  PROFILES_DIR="${OUTPUT_DIR}/down_profiles"
   
 fi
 
