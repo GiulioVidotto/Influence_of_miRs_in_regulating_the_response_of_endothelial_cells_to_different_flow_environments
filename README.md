@@ -7,8 +7,7 @@ This repository contains the code that I wrote for the study that investigated t
 1. Clone the repository and navigate to the repository:
     ```bash
     git clone https://github.com/GiulioVidotto/Influence_of_miRs_in_regulating_the_response_of_endothelial_cells_to_different_flow_environments.git
-    ```
-    
+    ``` 
 2. Navigate to the cloned repository:
     ```bash
     cd Influence_of_miRs_in_regulating_the_response_of_endothelial_cells_to_different_flow_environments.git
@@ -103,15 +102,17 @@ This project depends on public available data and data obtained from lab experim
 
 ## Upload the data on R or Rstudio
 
-For this project, four miRNA-mRNA interaction public repositories were considered (miRTarBase v9.0, targetScan v8.0, miRDB v6.0, tarBase v9.0). In the previous step, the miRNA-mRNA interaction files from these repositories were downloaded. The scripts contained in the folder called "upload_public_databases_R_scripts" load the public data on R or Rstudio. Alongside loading the data, the scripts will run a check on the miRNA notation based on the one used in miRBase (Release 22.1).
+For this project, four miRNA-mRNA interaction public repositories were considered (miRTarBase v9.0, targetScan v8.0, miRDB v6.0, tarBase v9.0). In the previous step, the miRNA-mRNA interaction files from these repositories were downloaded. The scripts contained in the folder called upload_public_databases_R_scripts load the public data on R or Rstudio. Alongside loading the data, the scripts will run a check on the miRNA notation based on the one used in miRBase (Release 22.1).
 To upload the data, open R or Rstudio and follow the instructions on the scripts. To upload the data from miRDB and miRTarBase, it is required to use Biomart (https://useast.ensembl.org/info/data/biomart/index.html) to obtain columns not present in the original datasets. At the end of each script, a new file with the repository data and the controlled miRNA notation is stored in a folder called "final_outputs". This new folder is created as a subfolder of the miR_databases folder.
+Once all the public databases have been upload and the notation of the miRNAs has been checked out, use the script `./find_common_miRNA_mRNA_interactions.R`. This script outputs all miRNA-mRNA interactions in common in at least two databases out of the four considered. The output file is called all_interaction.csv and stored in `./project_data/miR_databases/final_outputs`.
+**⚠️ Note:** The script for uploading the lab data on R (miRNA expression, mRNA expression and proteomics data) will be realeased alongside the publication of the paper.
 
 ## miRNA-mRNA interaction analysis
 
 ### Calculate the minimum free energy (MFE) of each miRNA-mRNA interaction
 
 To calculate the minimum free energy (MFE) of each interaction, we considered the sequences of miRNAs and the 3'UTR regions of mRNAs.
-- miRNA Sequences: Obtained from miRBase (Release 22.1). The sequences are stored in the `mature.fa` file in `./project_data/miR_database/miRBase_database`.
+- miRNA Sequences: Obtained from miRBase (Release 22.1). The sequences are stored in the mature.fa file in `./project_data/miR_database/miRBase_database`.
 - 3'UTR Regions of mRNAs: Extracted using APAtrap (https://sourceforge.net/p/apatrap/wiki/User%20Manual/#jump2).
 
 Step-by-Step Process:
@@ -124,29 +125,45 @@ Step-by-Step Process:
 3. Obtaining DNA Sequences:
     Execute the shell script get_sequence.sh.
     - Input: BED files from Step 2.
-    - Output: DNA sequences for the 3'UTR regions that will be stored in `./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_mRNA/mRNA_${file}`
+    - Output: DNA sequences for the 3'UTR regions that will be stored in `./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_DNA`. The file naming format for the output files is the following: `3UTR_with_poly_A_sequences_on_chr[chromosome number].fa`.
+    To run the script:
     ```bash
     bash ./MFE_scripts/get_sequence.sh
     ```
 4. Converting DNA to mRNA:
     Use the script DNA_to_mRNA.sh to convert DNA sequences into mRNA sequences.
     - Input: DNA sequence files from Step 3.
-    - Output: mRNA sequences.
-    Example command:3'UTR regions. To run the script:
+    - Output: mRNA sequences. The sequences will be stored in the following folder `./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_mRNA`. The file name format is the same as before: `3UTR_with_poly_A_sequences_on_chr[chromosome number].fa`.
+    To run the script:
     ```bash
-    bash ./MFE_scripts/DNA_to_mRNA.sh <DNA_SEQUENCE_FILE> # Substitute <DNA_SEQUENCE_FILE> with the name of the file 3UTR_with_poly_A_sequences_on_chr[chromosome number]
+    bash ./MFE_scripts/DNA_to_mRNA.sh <DNA_SEQUENCE_FILE>
     ```
-5. Run the script get_MFE_function.sh to calculate MFE values using tools from the ViennaRNA package.
+5. Merge all the 3'UTR sequences of the mRNAs in one single file
+    ```bash
+    cat $(pwd)/project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_mRNA/mRNA_*.fa >     $(pwd)/project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/all_mRNA_sequences.fa
+    ```
+6. Run the script get_MFE_function.sh to calculate MFE values using tools from the ViennaRNA package.
     Input:
-    - <TARGET_QUERY_FILE>: Target sequences.
-    - <GENE_SEQ_FILE>: mRNA sequences.
-    - <MIRNA_SEQ_FILE>: miRNA sequences.
-Logic:
-For 3'UTR sequences shorter than 2000 bp, the RNAup function was used.
-For longer sequences, a combination of RNAplfold and RNAplex functions was employed.
-Example command:
+    - <TARGET_QUERY_FILE>: It contains the information about the IDs of mRNAs and miRNAs involved in an interaction. Specifically, there are two files, one involving only the interaction with up-regulated miRNAs and the other with down-regulated miRNAs. These files are obtained in R or Rstudio w (**⚠️ Note:** it will be possible to obtain this file only when the paper will be publish alongside with the list of differentially expressed miRNAs) 
+    - <GENE_SEQ_FILE>: mRNA sequences obtained at step 4 (`./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_mRNA/all_mRNA_sequences.fa`)
+    - <MIRNA_SEQ_FILE>: miRNA sequences (`./project_data/miR_database/miRBase_database/mature.fa`).
+    This script uses function form the ViennaRNA package. For 3'UTR sequences shorter than 2000 bp, the "RNAup" function is used. For longer sequences, a combination of "RNAplfold" and "RNAplex" functions is employed. To run the script:
     ```bash
     bash ./MFE_scripts/get_MFE_function.sh <TARGET_QUERY_FILE> <GENE_SEQ_FILE> <MIRNA_SEQ_FILE>
     ```
+    The output files will be stored in `./project_data/MFE_values` where there will be folders called:
+    - up_thermodynamics_scores_file, if the analysed interactions were the ones between mRNAs and up-regulated miRNAs;
+    - down_thermodynamics_scores_file, if the analysed interactions were the ones between mRNAs and down-regulated miRNAs.
+7. Import these files in R or Rstudio
+    Run the script `./MFE_scripts/calculate_MFE_values.R`
 
+## Statistical Analysis
 
+Further details on the statistical analysis will be added to this github repository once the paper related to this project is published. At the moment only the scripts used in the analysis have been added to this repository inside the folder ./statistical_analysis_scripts:
+    - pipeline_statistical_test.R, it contains a main function divided in multiple sub-functions used in the statistical analsyis;
+    - run_statistical_analysis.R, it called the main function defined in pipeline_statistical_test.R and its sub-function to run the statistical analsyis.
+
+# Binary classification 
+
+As for the Statistical Analysis, further details about this step of the analysis will be added to this github repository once the paper is published. At the moment only the scripts used in the analysis have been added to this repository inside the folder ./binary_classification_scripts:
+    -
