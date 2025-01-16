@@ -167,4 +167,4 @@ Further details on the statistical analysis will be added to this github reposit
 
 As for the Statistical Analysis, further details about this step of the analysis will be added to this github repository once the paper is published. At the moment only the scripts used in the analysis have been added to this repository inside the folder `./binary_classification_scripts`:
     - classifier_OSS_vs_LSS.py and classifier_OSS_vs_ESS.py, these are the same script but what changes are the input files and the tuning of the hyperparameters
-    - 
+    - get_data_for_classifier.R, this script uses the same function used in the statistical analysis to obtain the same statistical groups (background and test groups) and it creates a table with all the useful information to run the classification
