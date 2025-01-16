@@ -19,27 +19,30 @@ This repository contains the code that I wrote for the study that investigated t
 ### System dependencies:
 
 Before running the script, ensure you have the following installed:
-1. **`unzip`** (to extract `.zip` files):
-    - For **Ubuntu**, run:
+1. unzip (to extract `.zip` files):
+    - For Ubuntu, run:
     ```bash
     sudo apt update
     sudo apt install unzip
     ```
-    - For **macOS**:
+    - For macOS:
     ```bash
     brew install unzip
     ```
-    - For **WSL (Windows Subsystem for Linux)**:
+    - For WSL (Windows Subsystem for Linux):
     ```bash
     sudo apt update
     sudo apt install unzip
     ```
-
-2. **`wget`** (to download files from the web):
+2. wget (to download files from the web):
     - This is usually pre-installed on most systems. If not, install it using:
     ```bash
     sudo apt install wget
     ```
+2. APAtrap
+    - Follow the installation on the APAtrap website (Link to the website: https://sourceforge.net/p/apatrap/wiki/User%20Manual/#jump2, Paper: Congting Ye, Yuqi Long, Guoli Ji, Qingshun Quinn Li, Xiaohui Wu, APAtrap: identification and quantification of alternative polyadenylation sites from RNA-seq data, Bioinformatics, Volume 34, Issue 11, June 2018, Pages 1841–1849, https://doi.org/10.1093/bioinformatics/bty029).
+4. ViennaRNA package:
+    - follow the installation and tutorial on the ViennaRNA website (Link to the website: https://www.tbi.univie.ac.at/RNA/tutorial/, Paper: Lorenz, R., Bernhart, S.H., Höner zu Siederdissen, C. et al. ViennaRNA Package 2.0. Algorithms Mol Biol 6, 26 (2011). https://doi.org/10.1186/1748-7188-6-26)
     
 ### R Setup
 
@@ -107,10 +110,22 @@ To upload the data, open R or Rstudio and follow the instructions on the scripts
 
 ### Calculate the minimum free energy (MFE) of each miRNA-mRNA interaction
 
-To calculate the minimum free energy (MFE) of each interaction, the sequences of the miRNAs and of the 3'UTR regions on the mRNAs were considered. The sequences of the miRNAs were obtained from miRBAse (Release 22.1) while the sequences of the 3'UTR regions of the mRNAs were obtained using a software called APAtrap (https://sourceforge.net/p/apatrap/wiki/User%20Manual/). To obtain the wanted regions, we used the bedgraph files as input and followed the instruction on the APAtrap website. After obtaining the sequences of both biological molecules, we used the scripts contained in the folder called MFE_scripts to calculate the MFE of each iteraction. Specifically:
-1. Use the bedgraph files as inputs for the APAtrap function and save the output file as "all_APA_output_chr.txt". This file must be saved in a new subfolder of "genome_data" folder called "APA_output".
-2. Open R or Rstudio and run the script "updating_gene_coordinates_based_on_poly_A_location.R". This script loads the APA output file (generated using APAtrap) and processes it to update the stop coordinates of each mRNA based on the furthest poly-A site. The script outputs a separate BED graph file for each chromosome, storing the updated coordinates of the 3'UTR region for all mRNAs on that chromosome. These bedgraph files are stored in a new folder ("./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_bed_file") where each file has the following name: "3UTR_poly_A_regions_chr[chromosome number]".
-3. Run the script called "get_sequence.sh" from the shell. This script takes as input the bed files obtained at the previous step to obtain the DNA sequences corresponding to the 3'UTR region coordinates of each mRNA. To run this script:
+To calculate the minimum free energy (MFE) of each interaction, we considered the sequences of miRNAs and the 3'UTR regions of mRNAs.
+- miRNA Sequences: Obtained from miRBase (Release 22.1). The sequences are stored in the "mature.fa" file in "./project_data/miR_database/miRBase_database"
+- 3'UTR Regions of mRNAs: Extracted using APAtrap (https://sourceforge.net/p/apatrap/wiki/User%20Manual/#jump2).
+
+Step-by-Step Process:
+1. Extracting 3'UTR Regions:
+    Use bedgraph files as input for the APAtrap tool to identify poly-A sites. Save the output file as "all_APA_output_chr.txt" in a new subfolder of the "genome_data" folder named "APA_output".
+2. Updating Gene Coordinates:
+    Run the R script "updating_gene_coordinates_based_on_poly_A_location.R" in R or RStudio.
+    - Input: APAtrap output file ("./project_data/genome_data/APA_output/all_APA_output_chr.txt").
+    - Output: Updated BED files with 3'UTR coordinates, saved in  `./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_bed_file/`. The scripts output multiple BED files based on the position of the corresponding gene of each mRNA on the chromosomes. Each file is named: 3UTR_poly_A_regions_chr[chromosome number].
+Obtaining DNA Sequences:
+
+Execute the shell script get_sequence.sh.
+Input: BED files from Step 2.
+Output: DNA sequences for the 3'UTR regions.
     ```bash
     bash ./MFE_scripts/get_sequence.sh
     ```
@@ -118,7 +133,7 @@ To calculate the minimum free energy (MFE) of each interaction, the sequences of
     ```bash
     bash ./MFE_scripts/DNA_to_mRNA.sh <DNA_SEQUENCE_FILE> # Substitute <DNA_SEQUENCE_FILE> with the name of the file 3UTR_with_poly_A_sequences_on_chr[chromosome number]
     ```
-5. Lastly, run the script "get_MFE_function.sh" to obtain the MFE values of each interaction. To run the script:
+5. Lastly, run the script "get_MFE_function.sh" to obtain the MFE values of each interaction. This script integrates function from the ViennaRNA package. Based on the length of the 3'UTR region sequences we used different function to calculate the MFE values. For 3'UTR regions shorter than 2000 bp we used the "RNAup" function. For all the other sequences a combination of the functions called "RNAplfold" and "RNAplex" was used. To run the script:
     ```bash
     bash ./MFE_scripts/get_MFE_function.sh <TARGET_QUERY_FILE> <GENE_SEQ_FILE> <MIRNA_SEQ_FILE>
     ```
