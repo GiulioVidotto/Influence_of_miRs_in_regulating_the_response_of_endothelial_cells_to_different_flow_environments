@@ -128,7 +128,7 @@ Step-by-Step Process:
 3. Obtaining DNA Sequences:
     Execute the shell script get_sequence.sh.
     - Input: BED files from Step 2.
-    - Output: DNA sequences for the 3'UTR regions that will be stored in `./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_DNA`. The file naming format for the output files is the following: `3UTR_with_poly_A_sequences_on_chr[chromosome number].fa`.
+    - Output: DNA sequences for the 3'UTR regions that will be stored in `./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_DNA`. The file naming format for the output files is the following: `3UTR_with_poly_A_sequences_on_chr[chromosome number].fa.
     To run the script:
     ```bash
     bash ./MFE_scripts/get_sequence.sh
@@ -136,7 +136,7 @@ Step-by-Step Process:
 4. Converting DNA to mRNA:
     Use the script DNA_to_mRNA.sh to convert DNA sequences into mRNA sequences.
     - Input: DNA sequence files from Step 3.
-    - Output: mRNA sequences. The sequences will be stored in the following folder `./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_mRNA`. The file name format is the same as before: `3UTR_with_poly_A_sequences_on_chr[chromosome number].fa`.
+    - Output: mRNA sequences. The sequences will be stored in the following folder `./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_mRNA`. The file name format is the same as before: 3UTR_with_poly_A_sequences_on_chr[chromosome number].fa.
     To run the script:
     ```bash
     bash ./MFE_scripts/DNA_to_mRNA.sh <DNA_SEQUENCE_FILE>
