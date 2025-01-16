@@ -159,11 +159,12 @@ Step-by-Step Process:
 
 ## Statistical Analysis
 
-Further details on the statistical analysis will be added to this github repository once the paper related to this project is published. At the moment only the scripts used in the analysis have been added to this repository inside the folder ./statistical_analysis_scripts:
+Further details on the statistical analysis will be added to this github repository once the paper related to this project is published. At the moment only the scripts used in the analysis have been added to this repository inside the folder `./statistical_analysis_scripts`:
     - pipeline_statistical_test.R, it contains a main function divided in multiple sub-functions used in the statistical analsyis;
     - run_statistical_analysis.R, it called the main function defined in pipeline_statistical_test.R and its sub-function to run the statistical analsyis.
 
 # Binary classification 
 
-As for the Statistical Analysis, further details about this step of the analysis will be added to this github repository once the paper is published. At the moment only the scripts used in the analysis have been added to this repository inside the folder ./binary_classification_scripts:
-    -
+As for the Statistical Analysis, further details about this step of the analysis will be added to this github repository once the paper is published. At the moment only the scripts used in the analysis have been added to this repository inside the folder `./binary_classification_scripts`:
+    - classifier_OSS_vs_LSS.py and classifier_OSS_vs_ESS.py, these are the same script but what changes are the input files and the tuning of the hyperparameters
+    - 
