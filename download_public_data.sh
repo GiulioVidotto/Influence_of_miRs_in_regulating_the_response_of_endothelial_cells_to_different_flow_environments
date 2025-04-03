@@ -73,13 +73,13 @@ done
 lab_data_folder="$project_data/lab_data"
 # mRNA-seq example dataset
 dest_file_mRNA_seq_data="$lab_data_folder/mRNA_seq_database"
-download_if_not_exists "" "$dest_file_mRNA_seq_data"
+download_if_not_exists "https://github.com/GiulioVidotto/Influence_of_miRs_in_regulating_the_response_of_endothelial_cells_to_different_flow_environments/raw/main/example_datasets/mRNA_seq_example_dataset.xlsx" "$dest_file_mRNA_seq_data"
 # miRNA-seq example dataset
 dest_file_miRNA_seq_data="$lab_data_folder/miRNA_database"
-download_if_not_exists "" "$dest_file_miRNA_seq_data"
+download_if_not_exists "https://github.com/GiulioVidotto/Influence_of_miRs_in_regulating_the_response_of_endothelial_cells_to_different_flow_environments/raw/main/example_datasets/miRNA_seq_example_dataset.xlsx" "$dest_file_miRNA_seq_data"
 # proteomics example dataset
 dest_file_proteomics_data="$lab_data_folder/proteomics_database"
-download_if_not_exists "" "$dest_file_proteomics_data"
+download_if_not_exists "https://github.com/GiulioVidotto/Influence_of_miRs_in_regulating_the_response_of_endothelial_cells_to_different_flow_environments/raw/main/example_datasets/proteomics_example_dataset.xlsx" "$dest_file_proteomics_data"
 
 
 echo "All downloads completed!"
