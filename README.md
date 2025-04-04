@@ -114,11 +114,14 @@ Once all the public databases have been upload and the notation of the miRNAs ha
 ### Upload lab data
 
 To upload the lab data, open R or Rstudio and follow the instructions on the scripts stored in the "./upload_lab_datasets_R_scripts" folder. In this forlder, there are 3 scripts:
-- upload_mRNA_seq_dataset.R: # This R script processes raw mRNA-seq count data using the DESeq2 pipeline to perform differential expression analysis between flow conditions, including data import, normalization, quality control, and visualization.
-- upload_miRNA_dataset.R: This script loads and cleans a miRNA sequencing dataset, renames and filters relevant columns, and extracts significantly altered miRNAs (log2FC > 1, FDR < 0.05) with at least 15 total counts for the OSS vs LSS and ESS vs LSS comparisons.
-- upload_proteomics_dataset.R:
+- `upload_mRNA_seq_dataset.R`: # This R script processes raw mRNA-seq count data using the DESeq2 pipeline to perform differential expression analysis between flow conditions, including data import, normalization, quality control, and visualization.
+- `upload_miRNA_dataset.R`: This script loads and cleans a miRNA sequencing dataset, renames and filters relevant columns, and extracts significantly altered miRNAs (log2FC > 1, FDR < 0.05) with at least 15 total counts for the OSS vs LSS and ESS vs LSS comparisons.
+- `upload_proteomics_dataset.R`: This script is designed to process a proteomics dataset containing quantitative information on protein expression across different flow conditions. The goal is to clean, annotate, and enrich the dataset with corresponding gene identifiers and additional biological information, such as the presence of KFERQ motifs.
 
 ## miRNA-mRNA interaction analysis
+
+### Merge the miRNA-mRNA interaction dataset with the mRNA-seq processed data
+Run the script `./merge_mRNA_and_interaction_info.R`. This script processes and enriches gene expression data from a DESeq2 pipeline. It then integrates gene annotation and miRNA-target interaction data to produce a combined dataset containing both expression and interaction information.
 
 ### Calculate the minimum free energy (MFE) of each miRNA-mRNA interaction
 
