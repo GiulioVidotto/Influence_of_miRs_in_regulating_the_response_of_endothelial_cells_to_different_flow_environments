@@ -14,7 +14,7 @@ current_working_directory <- getwd()
 
 # --- 2. Import the Database ---
 # Define the path to the mRNA-seq data file
-original_proteomics_data_path <- paste0(current_working_directory, "project_data/lab_data/mRNA_seq_database/mRNA_seq_example_dataset.xlsx")
+original_proteomics_data_path <- paste0(current_working_directory, "project_data/lab_data/mRNA_seq_example_dataset.xlsx")
 
 # Check if the file exists before importing
 if (!file.exists(original_proteomics_data_path)) {
