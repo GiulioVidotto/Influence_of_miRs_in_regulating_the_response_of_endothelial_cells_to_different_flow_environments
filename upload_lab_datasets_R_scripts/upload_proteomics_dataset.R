@@ -3,7 +3,9 @@
 # - Name of the file -> "Proteomics_data.txt" (contains protein expression levels across different conditions)
 #
 # - DESCRIPTION:
-# This proteomics dataset contains quantitative information on protein expression levels.
+# This script is designed to process a proteomics dataset containing quantitative information on protein expression across different flow conditions.
+# The goal is to clean, annotate, and enrich the dataset with corresponding gene identifiers and additional biological information, such as the presence
+# of KFERQ motifs.
 
 # --- 1. Get Working Directory ---
 # Set the working directory
