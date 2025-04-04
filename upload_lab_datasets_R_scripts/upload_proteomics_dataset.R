@@ -89,3 +89,21 @@ statistics_proteomics_data <- original_proteomics_data %>%
                   protein_OSS_vs_LSS_adj_pvalue,
                   protein_ESS_vs_LSS_Abundance_Ratio,
                   protein_ESS_vs_LSS_adj_pvalue)
+  
+# --- 6. Add a column about the presence of KFERQ motif on the protein sequence ---
+# Export the protein IDs column as a table and use it as input in KFERQ finder V0.8 ("https://rshine.einsteinmed.edu/")
+# After using the KFERQ finder V0.8 tool, import the data obtained modify it to the right format (with protein IDs and yes or no based on the presence of the KFERQ motifs
+KFERQ_finder_data_path <- "change this path to the table obtained from  the KFERQ finder tool"
+KFERQ_finder_data <- read.csv(KFERQ_finder_data_path, stringsAsFactors = FALSE, header = TRUE) %>% 
+  dplyr::filter(motif_type != "other types of motifs") %>% 
+  dplyr::select(Protein_ID = entry,
+                motif_type) %>% 
+  dplyr::mutate(KFERQ_motif = ifelse(motif_type == "canonical", 1, 0)) %>% 
+  dplyr::distinct(Protein_ID, KFERQ_motif)
+
+# Merge the database about the KFERQ motifs and the proteomics database
+statistics_proteomics_data <- statistics_proteomics_data %>% 
+  left_join(KFERQ_finder_data, by = "Protein_ID") 
+
+# All the protein present in the original statistics_proteomics_data but not in the KFERQ_finder_data will have an NA value. Substitute this value with a 0
+statistics_proteomics_data$KFERQ_motif[is.na(statistics_proteomics_data$KFERQ_motif)] <- 0
