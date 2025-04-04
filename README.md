@@ -106,13 +106,20 @@ This project depends on public available data and data obtained from lab experim
 
 ## Upload the data on R or Rstudio
 
+### Upload miRNA-mRNA interaction public repositories
+
 For this project, four miRNA-mRNA interaction public repositories were considered (miRTarBase v9.0, targetScan v8.0, miRDB v6.0, tarBase v9.0). In the previous step, the miRNA-mRNA interaction files from these repositories were downloaded. The scripts contained in the folder called upload_public_databases_R_scripts load the public data on R or Rstudio. Alongside loading the data, the scripts will run a check on the miRNA notation based on the one used in miRBase (Release 22.1).  
 
 To upload the data, open R or Rstudio and follow the instructions on the scripts. To upload the data from miRDB and miRTarBase, it is required to use Biomart (https://useast.ensembl.org/info/data/biomart/index.html) to obtain columns not present in the original datasets. At the end of each script, a new file with the repository data and the controlled miRNA notation is stored in a folder called "final_outputs". This new folder is created as a subfolder of the miR_databases folder.  
 
 Once all the public databases have been upload and the notation of the miRNAs has been checked out, use the script `./find_common_miRNA_mRNA_interactions.R`. This script outputs all miRNA-mRNA interactions in common in at least two databases out of the four considered. The output file is called all_interaction.csv and stored in `./project_data/miR_databases/final_outputs`.  
 
-> **⚠️ Note:** The script for uploading the lab data on R (miRNA expression, mRNA expression and proteomics data) will be realeased alongside the publication of the paper.
+### Upload lab data
+
+To upload the lab data, open R or Rstudio and follow the instructions on the scripts stored in the "./upload_lab_datasets_R_scripts" folder. In this forlder, there are 3 scripts:
+- upload_mRNA_seq_dataset.R: # This R script processes raw mRNA-seq count data using the DESeq2 pipeline to perform differential expression analysis between flow conditions, including data import, normalization, quality control, and visualization.
+- upload_miRNA_dataset.R: This script loads and cleans a miRNA sequencing dataset, renames and filters relevant columns, and extracts significantly altered miRNAs (log2FC > 1, FDR < 0.05) with at least 15 total counts for the OSS vs LSS and ESS vs LSS comparisons.
+- upload_proteomics_dataset.R:
 
 ## miRNA-mRNA interaction analysis
 
