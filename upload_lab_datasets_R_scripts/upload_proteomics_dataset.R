@@ -11,7 +11,7 @@ current_working_directory <- getwd()
 
 # --- 2. Import the Database ---
 # Define the path to the proteomics data file
-original_proteomics_data_path <- paste0(current_working_directory, "project_data/lab_data/proteomics_database/20191219_HumphriesJ_prot_01.xlsx")
+original_proteomics_data_path <- paste0(current_working_directory, "project_data/lab_data/proteomics_database/proteomics_example_dataset.xlsx")
 
 # Check if the file exists before importing
 if (!file.exists(original_proteomics_data_path)) {
