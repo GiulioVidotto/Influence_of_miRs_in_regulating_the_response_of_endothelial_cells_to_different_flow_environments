@@ -11,7 +11,7 @@ current_working_directory <- getwd()
 
 # --- 2. Import the Database ---
 # Define the path to the miRNAs data file
-miR_sequencing_database_path <- paste0(current_working_directory, "project_data/lab_data/miRNA_database/miR_sequencing_dataset.xlsx")
+miR_sequencing_database_path <- paste0(current_working_directory, "project_data/lab_data/miRNA_database/miRNA_seq_example_dataset.xlsx")
 
 # Check if the file exists before importing
 if (!file.exists(miR_sequencing_database_path)) {
