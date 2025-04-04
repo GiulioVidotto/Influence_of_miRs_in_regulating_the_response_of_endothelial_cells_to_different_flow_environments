@@ -3,7 +3,8 @@
 # - Name of the file -> "mRNA_expression_over_0.xlsx" (contains transcript expression levels across different conditions)
 #
 # - DESCRIPTION:
-# This mRNA-seq dataset contains quantitative information on transcript expression levels.
+# This R script processes raw mRNA-seq count data using the DESeq2 pipeline to perform differential expression analysis between flow conditions, 
+# including data import, normalization, quality control, and visualization.
 # While the other two datasets obtained from the lab (proteomics and miRNAs datasets) were already processed
 # we processed the mRNA-seq data starting from the row counts of the transcripts following the Deseq2 pipeline.
 
