@@ -60,8 +60,8 @@ Before running the script, ensure you have the following installed:
 ## Download the data
 
 This project depends on public available data and data obtained from lab experiments.
-1. Download the public data:
-    Make the scripts for downloading public data executable:
+1. Download the public and lab data:
+    Make the scripts for downloading public and lab data executable:
     ```bash
     chmod +x download_file.sh            # script for download a specific file
     chmod +x download_public_data.sh     # script containing the links of the files that will be downloaded in defined paths (this script uses download_file.sh to download the files)
@@ -87,18 +87,22 @@ This project depends on public available data and data obtained from lab experim
     │   │   └── miRTarBase_MTI.xlsx                      # miRNA-mRNA interaction data from miRTarBase
     │   └── tarBase_database/                            # data from TarBase
     │       └── Homo_sapiens_TarBase-v9.tsv              # miRNA-mRNA interaction data from TarBase
-    └── genome_data/                                     # Contains genomic data files
-        ├── bed_and_fasta_file/                          # Genome data in BED and FASTA formats
-        └── chr_fasta_file/                              # Chromosome files in FASTA format
-            ├── chr1.fa                                  # Chromosome 1 sequence
-            ├── chr2.fa                                  # Chromosome 2 sequence
-            ├── ...                                      # Other chromosomes (from chr3 to chr22)
-            ├── chrX.fa                                  # Chromosome X sequence
-            ├── chrY.fa                                  # Chromosome Y sequence
-            └── chrM.fa                                  # Mitochondrial DNA sequence
-    
-2. Download the data obtained in the lab:  
-    > **⚠️ Note:** The lab data associated with this study will be released alongside the research paper (a folder with this data will be added to the project_data folder)
+    ├── genome_data/                                     # Contains genomic data files
+    │   ├── bed_and_fasta_file/                          # Genome data in BED and FASTA formats
+    │    └── chr_fasta_file/                              # Chromosome files in FASTA format
+    │       ├── chr1.fa                                  # Chromosome 1 sequence
+    │       ├── chr2.fa                                  # Chromosome 2 sequence
+    │       ├── ...                                      # Other chromosomes (from chr3 to chr22)
+    │       ├── chrX.fa                                  # Chromosome X sequence
+    │       ├── chrY.fa                                  # Chromosome Y sequence
+    │       └── chrM.fa                                  # Mitochondrial DNA sequence
+    └── lab_data/
+        ├─ mRNA_seq_database/
+        │   └── mRNA_seq_example_dataset.xlsx    
+        ├─ miRNA_seq_database/
+        │   └── miRNA_seq_example_dataset.xlsx
+        └── proteomics_database/
+            └── proteomics_example_dataset.xlsx 
 
 ## Upload the data on R or Rstudio
 
