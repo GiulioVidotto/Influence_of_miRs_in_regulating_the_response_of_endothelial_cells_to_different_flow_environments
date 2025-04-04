@@ -1,8 +1,8 @@
 #The databases used for comparison are:
-- miRTarBase
-- miRDB
-- TarBase
-- Targetscan
+# - miRTarBase
+# - miRDB
+# - TarBase
+# - Targetscan
 
 ## Uplaod the different databases
 # Get the working directory path
