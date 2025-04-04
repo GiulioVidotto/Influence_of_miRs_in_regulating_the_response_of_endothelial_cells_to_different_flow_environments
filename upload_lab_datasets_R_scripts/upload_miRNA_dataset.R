@@ -3,7 +3,15 @@
 # - Name of the file -> "miR_sequencing_dataset.xlsx" (contains miRNA expression levels across different conditions)
 #
 # - DESCRIPTION:
-# This miRNA dataset contains quantitative information on miRNA expression levels.
+# This script imports a miRNA expression dataset, cleans and renames relevant columns, computes a summary of patient expression levels,
+# and standardizes log2 fold change directions for consistent comparison between conditions.
+
+
+
+
+
+
+
 
 # --- 1. Get Working Directory ---
 # Set the working directory
@@ -64,3 +72,21 @@ miR_sequencing_database <- miR_sequencing_database %>%
     LSS_vs_OSS_paired_log2FoldChange = LSS_vs_OSS_paired_log2FoldChange * -1 # Change the foldchange values for this contrast (because it is the opposite)
   ) %>% 
   dplyr::rename(OSS_vs_LSS_paired_log2FoldChange = LSS_vs_OSS_paired_log2FoldChange)
+
+# --- 4. Obtain the altered miRNAs in the OSS vs LSS contrast --- 
+# We selected only the altered miRNAs with a minimum of 15 counts across all samples, considering the rest as not biologically significant.
+OSS_vs_LSS_miR_sequencing_database <- miR_sequencing_database %>% 
+  dplyr::mutate(ID = gsub("_\\d*", "", ID)) %>% 
+  dplyr::distinct(ID, .keep_all = TRUE) %>% 
+  dplyr::filter(abs(OSS_vs_LSS_paired_log2FoldChange) > 1 &
+                OSS_vs_LSS_paired_padj < 0.05 &
+                patient_col_sum > 15)
+
+# --- 4. Obtain the altered miRNAs in the ESS vs LSS contrast --- 
+# We selected only the altered miRNAs with a minimum of 15 counts across all samples, considering the rest as not biologically significant.
+ESS_vs_LSS_miR_sequencing_database <- miR_sequencing_database %>% 
+  dplyr::mutate(ID = gsub("_\\d*", "", ID)) %>% 
+  dplyr::distinct(ID, .keep_all = TRUE) %>% 
+  dplyr::filter(abs(ESS_vs_LSS_paired_log2FoldChange) > 1 &
+                ESS_vs_LSS_paired_padj < 0.05 &
+                patient_col_sum > 15)
