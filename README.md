@@ -89,20 +89,17 @@ This project depends on public available data and data obtained from lab experim
     │       └── Homo_sapiens_TarBase-v9.tsv              # miRNA-mRNA interaction data from TarBase
     ├── genome_data/                                     # Contains genomic data files
     │   ├── bed_and_fasta_file/                          # Genome data in BED and FASTA formats
-    │    └── chr_fasta_file/                              # Chromosome files in FASTA format
+    │   └── chr_fasta_file/                              # Chromosome files in FASTA format
     │       ├── chr1.fa                                  # Chromosome 1 sequence
     │       ├── chr2.fa                                  # Chromosome 2 sequence
     │       ├── ...                                      # Other chromosomes (from chr3 to chr22)
     │       ├── chrX.fa                                  # Chromosome X sequence
     │       ├── chrY.fa                                  # Chromosome Y sequence
     │       └── chrM.fa                                  # Mitochondrial DNA sequence
-    └── lab_data/
-        ├─ mRNA_seq_database/
-        │   └── mRNA_seq_example_dataset.xlsx    
-        ├─ miRNA_seq_database/
-        │   └── miRNA_seq_example_dataset.xlsx
-        └── proteomics_database/
-            └── proteomics_example_dataset.xlsx 
+    └── lab_data/                                        # Contains the data obtained from the lab
+        ├── mRNA_seq_example_dataset.xlsx                # mRNA-Seq example data    
+        ├── miRNA_seq_example_dataset.xlsx               # miRNA-Seq example data 
+        └── proteomics_example_dataset.xlsx              # proteomics example data 
 
 ## Upload the data on R or Rstudio
 
