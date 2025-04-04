@@ -3,15 +3,8 @@
 # - Name of the file -> "miR_sequencing_dataset.xlsx" (contains miRNA expression levels across different conditions)
 #
 # - DESCRIPTION:
-# This script imports a miRNA expression dataset, cleans and renames relevant columns, computes a summary of patient expression levels,
-# and standardizes log2 fold change directions for consistent comparison between conditions.
-
-
-
-
-
-
-
+# This script loads and cleans a miRNA sequencing dataset, renames and filters relevant columns, and extracts significantly altered
+# miRNAs (log2FC > 1, FDR < 0.05) with at least 15 total counts for the OSS vs LSS and ESS vs LSS comparisons.
 
 # --- 1. Get Working Directory ---
 # Set the working directory
