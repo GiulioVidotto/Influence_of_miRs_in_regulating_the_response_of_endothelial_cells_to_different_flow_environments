@@ -158,8 +158,8 @@ Step-by-Step Process:
     ```
 6. Run the script get_MFE_function.sh to calculate MFE values using tools from the ViennaRNA package.
     Input:
-    - <TARGET_QUERY_FILE>: It contains the information about the IDs of mRNAs and miRNAs involved in an interaction. Specifically, there are two files, one involving only the interaction with up-regulated miRNAs and the other with down-regulated miRNAs. These files are obtained in R or Rstudio;
-      > **⚠️ Note:** it will be possible to obtain this file only when the paper will be publish alongside with the list of differentially expressed miRNAs.
+    - <TARGET_QUERY_FILE>: It contains the information about the IDs of mRNAs and miRNAs involved in an interaction. Specifically, the user has to create two files for each studied condition, one called "up_[condition]_miRNA_mRNA_interaction" involving only the interaction with up-regulated miRNAs and the other called "down_[condition]_miRNA_mRNA_interaction" involving only the interaction with down-regulated miRNAs. These user can obtain these files in R or Rstudio starting from the output file of the script called `./merge_mRNA_and_interaction_info.R`.
+      
     - <GENE_SEQ_FILE>: mRNA sequences obtained at step 4 (`./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_mRNA/all_mRNA_sequences.fa`);
     - <MIRNA_SEQ_FILE>: miRNA sequences (`./project_data/miR_database/miRBase_database/mature.fa`).
     This script uses function form the ViennaRNA package. For 3'UTR sequences shorter than 2000 bp, the "RNAup" function is used. For longer sequences, a combination of "RNAplfold" and "RNAplex" functions is employed. To run the script:
