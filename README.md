@@ -162,6 +162,7 @@ Step-by-Step Process:
       For each studied condition, the user must create two files:
       - up_[condition]_miRNA_mRNA_interaction: includes only interactions involving up-regulated miRNAs.
       - down_[condition]_miRNA_mRNA_interaction: includes only interactions involving down-regulated miRNAs.
+
       These files can be obtained starting from the output file of the script called `./merge_mRNA_and_interaction_info.R` in R or Rstudio. You can find examples of correctly formatted target files in the folder: `./MFE_scripts/example_target_file`,
       
     - <GENE_SEQ_FILE>: mRNA sequences obtained at step 4 (`./project_data/genome_data/bed_and_fasta_file/utr_with_poly_A_output/3UTR_with_poly_A_sequences_mRNA/all_mRNA_sequences.fa`);
