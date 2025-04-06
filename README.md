@@ -179,6 +179,14 @@ Step-by-Step Process:
 
 ## Statistical Analysis
 The goal of the statistical analysis is to identify significantly altered miRNAs, their commonly targeted genes, and the impact of this regulation on gene expression at the transcriptomic and proteomic levels. The pipeline is designed to work with multiple datasets and customizable parameters for flexible analysis.
+By running this pipeline, different background and test groups are defined:
+- Background group 1: Genes display no change in the expression of the transcripts and proteins. This group includes genes where the adjusted p-value of the mRNAs is > 0.05 and the adjusted p-value of the proteins is > 0.05. 
+- Background group 2: Genes display changes at the transcriptomics and proteomics levels in the same direction. This group includes genes where the adjusted p-value of the mRNAs is > 0.05 and the adjusted p-value of the proteins is > 0.05 with the mRNAs having logFC > 0 and the proteins having logFC > 0, or vice versa. 
+- Test group 1: Genes display changes only at the proteomics level. This group includes genes where the adjusted p-value of the mRNAs is > 0.05 and the adjusted p-value of the proteins is < 0.05. 
+- Test group 2: Genes display changes only at the transcriptomics level. This group includes genes where the adjusted p-value of the mRNAs is < 0.05 and the adjusted p-value of the proteins is > 0.05. 
+- Test group 3: Genes display changes at the transcriptomics and proteomics levels in the opposite direction. Specifically, this group includes genes where the adjusted p-values for the mRNAs and proteins are < 0.05, with the mRNAs having logFC < 0 and the proteins having logFC > 0, or vice versa.
+  
+The statistical analysis pipeline uses Chi-square or Fisher's test to determine if genes targeted by altered miRNAs or genes with associated proteins containing at least one KFERQ motif are over- or under-represented in the defined background or test groups. This analysis helps in understanding the regulatory role of miRNAs and their impact on gene expression alterations at both the transcriptomic and proteomic levels.
 
 ### Required Input Data
 To correctly execute this pipeline, make sure you have all the required input data files loaded, obtained from the previous steps:
@@ -192,6 +200,8 @@ The R scripts to run he statistical analysis are:
 - `./statistical_analysis_scripts/run_statistical_analysis.R`, it calls the main function defined in pipeline_statistical_test.R and its sub-function to run the statistical analsyis.
 
 ## Binary classification 
+The binary classification pipeline classifies genes into two categories:
+(genes stored in one of the test groups. It uses features like mRNA and miRNA concentrations, net-effect scores, and miRNA-mRNA dissociation constants. The data is prepared by considering individual gene data points for each donor, followed by splitting the dataset into training and testing sets. Machine learning classifiers are trained and evaluated using cross-validation and ROC curves. The pipeline also includes hyperparameter tuning and feature importance interpretation using SHAP values.
 
 ### Required Input Data
 To execute the binary classification pipeline successfully, ensure that you have the following input data files loaded, obtained from previous steps:
