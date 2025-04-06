@@ -201,7 +201,13 @@ The R scripts to run he statistical analysis are:
 
 ## Binary classification 
 The binary classification pipeline classifies genes into two categories:
-(genes stored in one of the test groups. It uses features like mRNA and miRNA concentrations, net-effect scores, and miRNA-mRNA dissociation constants. The data is prepared by considering individual gene data points for each donor, followed by splitting the dataset into training and testing sets. Machine learning classifiers are trained and evaluated using cross-validation and ROC curves. The pipeline also includes hyperparameter tuning and feature importance interpretation using SHAP values.
+- Class 0: for all the genes not included in a test group.
+- Class 1: for all the genes included in one of the test groups .
+To perform the classification, it uses the following features: 
+- Concentration of the mRNAs (measured as RPKM counts) 
+- Concentration of the miRNAs (measured as RPKM counts)  
+- net-effect score (calculated as the difference between up-regulated miRNAs and down-regulated miRNAs targeting the same mRNA) 
+- Constant of dissociation of each miRNA-mRNA interaction (calculated in one of the previous step, using Vienna RNA and APAtrap)
 
 ### Required Input Data
 To execute the binary classification pipeline successfully, ensure that you have the following input data files loaded, obtained from previous steps:
@@ -211,7 +217,7 @@ To execute the binary classification pipeline successfully, ensure that you have
 
 ### Scripts for Binary classification
 The scripts used in the analysis have been added to this repository inside the folder `./binary_classification_scripts`:
-- `get_data_for_classifier.R`, this script uses the same function used in the statistical analysis to obtain the same statistical groups (background and test groups) and it creates a table with all the useful information to run the classification
+- `get_data_for_classifier.R`, this script uses the same function used in the statistical analysis to obtain the same statistical groups (background and test groups) and it creates a table with all the useful information to run the classification. The data is prepared by considering individual gene data points for each donor.
 - `classifier_OSS_vs_LSS.py` and `classifier_OSS_vs_ESS.py`. These Python scripts handle the binary classification by running the machine learning pipeline. They involve:
     - Splitting the dataset into training and testing subsets
     - Standardizing the data to ensure consistent scaling
