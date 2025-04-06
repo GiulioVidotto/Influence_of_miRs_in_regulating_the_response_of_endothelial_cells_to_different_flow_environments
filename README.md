@@ -178,13 +178,34 @@ Step-by-Step Process:
     Run the script `./MFE_scripts/calculate_MFE_values.R`
 
 ## Statistical Analysis
+The goal of the statistical analysis is to identify significantly altered miRNAs, their commonly targeted genes, and the impact of this regulation on gene expression at the transcriptomic and proteomic levels. The pipeline is designed to work with multiple datasets and customizable parameters for flexible analysis.
 
-Further details on the statistical analysis will be added to this github repository once the paper related to this project is published. At the moment only the scripts used in the analysis have been added to this repository inside the folder `./statistical_analysis_scripts`:  
-    - pipeline_statistical_test.R, it contains a main function divided in multiple sub-functions used in the statistical analsyis;  
-    - run_statistical_analysis.R, it called the main function defined in pipeline_statistical_test.R and its sub-function to run the statistical analsyis.  
+### Required Input Data
+To correctly execute this pipeline, make sure you have all the required input data files loaded, obtained from the previous steps:
+- miRNA expression data (ex. *_miR_sequencing_database)
+- miRNA-mRNA interaction database (ex. miR_mRNA_interaction)
+- Gene/protein expression data (ex. statistics_proteomics_data and expression_database)
+
+### R Scripts for Statistical Analysis
+The R scripts to run he statistical analysis are:
+- `./statistical_analysis_scripts/pipeline_statistical_test.R`, it contains a main function divided in multiple sub-functions used in the statistical analsyis;  
+- `./statistical_analysis_scripts/run_statistical_analysis.R`, it calls the main function defined in pipeline_statistical_test.R and its sub-function to run the statistical analsyis.
 
 ## Binary classification 
 
-As for the Statistical Analysis, further details about this step of the analysis will be added to this github repository once the paper is published. At the moment only the scripts used in the analysis have been added to this repository inside the folder `./binary_classification_scripts`:  
-    - classifier_OSS_vs_LSS.py and classifier_OSS_vs_ESS.py, these are the same script but what changes are the input files and the tuning of the hyperparameters;  
-    - get_data_for_classifier.R, this script uses the same function used in the statistical analysis to obtain the same statistical groups (background and test groups) and it creates a table with all the useful information to run the classification
+### Required Input Data
+To execute the binary classification pipeline successfully, ensure that you have the following input data files loaded, obtained from previous steps:
+- miRNA expression data (*_miR_sequencing_database)
+- miRNA-mRNA interaction database (miR_mRNA_interaction)
+- Gene/protein expression data (statistics_proteomics_data, expression_database)
+
+### Scripts for Binary classification
+The scripts used in the analysis have been added to this repository inside the folder `./binary_classification_scripts`:
+- `get_data_for_classifier.R`, this script uses the same function used in the statistical analysis to obtain the same statistical groups (background and test groups) and it creates a table with all the useful information to run the classification
+- `classifier_OSS_vs_LSS.py` and `classifier_OSS_vs_ESS.py`. These Python scripts handle the binary classification by running the machine learning pipeline. They involve:
+    - Splitting the dataset into training and testing subsets
+    - Standardizing the data to ensure consistent scaling
+    - Optimizing hyperparameters for different machine learning models
+    - Training and testing multiple classifiers to identify the most effective model for classification
+    - Analysis on the importance of the features using the SHAP library on Python
+
