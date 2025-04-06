@@ -159,9 +159,9 @@ Step-by-Step Process:
 6. Run the script get_MFE_function.sh to calculate MFE values using tools from the ViennaRNA package.
     Input:
     - <TARGET_QUERY_FILE>: a tab-separated table contatining the IDs of mRNAs (Target_ID) and miRNAs (miRNA_ID), where each row represents a unique miRNA-mRNA pair.
-      For each studied condition, the user must create two files:
-      - up_[condition]_miRNA_mRNA_interaction: includes only interactions involving up-regulated miRNAs.
-      - down_[condition]_miRNA_mRNA_interaction: includes only interactions involving down-regulated miRNAs.
+      For each studied condition, the user must create two files called:
+      - "up_[condition]_miRNA_mRNA_interaction": includes only interactions involving up-regulated miRNAs.
+      - "down_[condition]_miRNA_mRNA_interaction": includes only interactions involving down-regulated miRNAs.
 
       These files can be obtained starting from the output file of the script called `./merge_mRNA_and_interaction_info.R` in R or Rstudio. You can find examples of correctly formatted target files in the folder: `./MFE_scripts/example_target_file`,
       
