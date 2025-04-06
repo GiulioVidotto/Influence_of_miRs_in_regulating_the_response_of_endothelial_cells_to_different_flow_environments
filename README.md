@@ -202,7 +202,8 @@ The R scripts to run he statistical analysis are:
 ## Binary classification 
 The binary classification pipeline classifies genes into two categories:
 - Class 0: for all the genes not included in a test group.
-- Class 1: for all the genes included in one of the test groups .
+- Class 1: for all the genes included in one of the test groups.
+  
 To perform the classification, it uses the following features: 
 - Concentration of the mRNAs (measured as RPKM counts) 
 - Concentration of the miRNAs (measured as RPKM counts)  
