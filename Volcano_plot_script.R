@@ -1,18 +1,4 @@
-library(ggrepel) 
-library(ggplot2)
-library(annotables)
-# genes
-
-# Calculate the values to use as max and min for the volcano plots
-min_log2FoldChange = max(min(expression_database$OSS_vs_LSS_paired_log2FoldChange),
-                         min(expression_database$ESS_vs_LSS_paired_log2FoldChange))
-max_log2FoldChange = min(max(expression_database$OSS_vs_LSS_paired_log2FoldChange),
-                         max((expression_database %>% dplyr::filter(!is.na(ESS_vs_LSS_paired_padj)))$ESS_vs_LSS_paired_log2FoldChange))
-max_paired_padj = max(min((expression_database %>% dplyr::filter(!is.na(OSS_vs_LSS_paired_padj)))$OSS_vs_LSS_paired_padj),
-                      min((expression_database %>% dplyr::filter(!is.na(ESS_vs_LSS_paired_padj)))$ESS_vs_LSS_paired_padj))
-
-
-# Graham
+# Obtain min/max values for the volcano plot
 min_log2FoldChange = max(
   min(expression_database$OSS_vs_LSS_paired_log2FoldChange),
   min(expression_database$ESS_vs_LSS_paired_log2FoldChange),
@@ -36,8 +22,7 @@ max_paired_padj = max(
          dplyr::filter(!is.na(OSS_vs_ESS_paired_padj)))$OSS_vs_ESS_paired_padj)
 )
 
-
-
+# Here the data table can be changed based on the contrast that you want to analyse (ex. in this case the volcano plot for the OSS vs ESS will be generated)
 paired_res_OSS_vs_ESS <- expression_database %>% 
   dplyr::filter(!is.na(OSS_vs_ESS_paired_padj)) %>% 
   dplyr::mutate(color = ifelse(OSS_vs_ESS_paired_log2FoldChange <= -1 & OSS_vs_ESS_paired_padj <= 0.05,
