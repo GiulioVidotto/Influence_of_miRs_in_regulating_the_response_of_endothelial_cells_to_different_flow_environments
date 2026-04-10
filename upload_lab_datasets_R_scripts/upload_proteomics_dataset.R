@@ -72,25 +72,35 @@ statistics_proteomics_data <- original_proteomics_data %>%
                 protein_OSS_vs_LSS_Abundance_Ratio = "Abundance Ratio: (Oscillatory) / (Laminar)",
                 protein_OSS_vs_LSS_adj_pvalue =  "Abundance Ratio Adj. P-Value: (Oscillatory) / (Laminar)",
                 protein_ESS_vs_LSS_Abundance_Ratio = "Abundance Ratio: (Elevated) / (Laminar)",
-                protein_ESS_vs_LSS_adj_pvalue = "Abundance Ratio Adj. P-Value: (Elevated) / (Laminar)") %>% 
+                protein_ESS_vs_LSS_adj_pvalue = "Abundance Ratio Adj. P-Value: (Elevated) / (Laminar)",
+                protein_ESS_vs_OSS_Abundance_Ratio = "Abundance Ratio: (Elevated) / (Oscillatory)",
+                protein_ESS_vs_OSS_adj_pvalue =  "Abundance Ratio Adj. P-Value: (Elevated) / (Oscillatory)"
+               ) %>% 
   separate_rows(Target_ID, sep ="; ") %>%  # Some of the rows have multiple Ensembl IDs divided by ";"
   dplyr::mutate(Target_ID = gsub("\\..*", "", Target_ID),
-                Protein_ID = gsub("-\\d*", "", Protein_ID)) %>%  # Remove the version of the ENSEMBL IDS
+                Protein_ID = gsub("-\\d*", "", Protein_ID),
+                protein_OSS_vs_ESS_Abundance_Ratio = -protein_ESS_vs_OSS_Abundance_Ratio,
+                protein_OSS_vs_ESS_adj_pvalue = protein_ESS_vs_OSS_adj_pvalue) %>%  # Remove the version of the ENSEMBL IDS
   dplyr::filter(!rowSums(
     is.na(
       dplyr::select(.,
                     protein_OSS_vs_LSS_Abundance_Ratio,
                     protein_OSS_vs_LSS_adj_pvalue,
                     protein_ESS_vs_LSS_Abundance_Ratio,
-                    protein_ESS_vs_LSS_adj_pvalue)
+                    protein_ESS_vs_LSS_adj_pvalue,
+                    protein_OSS_vs_ESS_Abundance_Ratio,
+                    protein_OSS_vs_ESS_adj_pvalue)
     )
-  ) == 4) %>%  # Filtered out all the rows where all 4 columns related to fold changes and p-values in all 4 columns are NA.
+  ) == 6) %>%  # Filtered out all the rows where all 4 columns related to fold changes and p-values in all 4 columns are NA.
   dplyr::distinct(Protein_ID,
                   Target_ID,
                   protein_OSS_vs_LSS_Abundance_Ratio,
                   protein_OSS_vs_LSS_adj_pvalue,
                   protein_ESS_vs_LSS_Abundance_Ratio,
-                  protein_ESS_vs_LSS_adj_pvalue)
+                  protein_ESS_vs_LSS_adj_pvalue,
+                  protein_OSS_vs_ESS_Abundance_Ratio,
+                  protein_OSS_vs_ESS_adj_pvalue
+                 )
   
 # --- 6. Add a column about the presence of KFERQ motif on the protein sequence ---
 # Export the protein IDs column as a table and use it as input in KFERQ finder V0.8 ("https://rshine.einsteinmed.edu/")
