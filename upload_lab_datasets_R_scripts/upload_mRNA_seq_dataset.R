@@ -310,7 +310,21 @@ show(ESS_vs_LSS_paired_p_value_histogram)
 # The shape of the histogram is similar to the "Scenario A: Anti-conservative p-values" in the article http://varianceexplained.org/statistics/interpreting-pvalue-histogram/
 # This means that there is no evident issue with the p-values and it is right to apply the correction.
 
-# --- 4.11 Creation of a table with all the information from the DESeq2 analysis ---
+# --- 4.11 OSS vs ESS contrast results ---
+paired_res_OSS_vs_ESS <- results(paired_dds,
+                                 contrast = c("condition", "OSS", "ESS"),
+                                 cooksCutoff = TRUE,
+                                 independentFiltering = TRUE)
+
+paired_res_OSS_vs_ESS$geneID <- rownames(paired_res_OSS_vs_ESS)
+paired_res_OSS_vs_ESS <- as_tibble(paired_res_OSS_vs_ESS) %>%
+  dplyr::select(geneID,
+                OSS_vs_ESS_paired_log2FoldChange = log2FoldChange,
+                OSS_vs_ESS_paired_pvalue = pvalue,
+                OSS_vs_ESS_paired_padj = padj,
+                OSS_vs_ESS_paired_baseMean = baseMean)
+
+# --- 4.12 Creation of a table with all the information from the DESeq2 analysis ---
 # Normalised counts for paired dds object
 paired_dds_normalized_counts <- as.data.frame(counts(paired_dds, normalized=TRUE)) %>% 
   rownames_to_column(var = "geneID")
@@ -318,8 +332,11 @@ paired_dds_normalized_counts <- as.data.frame(counts(paired_dds, normalized=TRUE
 # Merge both tables for ESS and LSS. Add the information about the fold changes and p-values to the counts
 mRNA_expresion_deseq2_table <- paired_dds_normalized_counts %>% 
   left_join(paired_res_ESS_vs_LSS, by = "geneID") %>% 
-  left_join(paired_res_OSS_vs_LSS, by = "geneID")
+  left_join(paired_res_OSS_vs_LSS, by = "geneID") %>%
+  left_join(paired_res_OSS_vs_ESS, by = "geneID")
 
 # There are rows where there are NAs for both adjusted p-values. Remove them
 mRNA_expresion_deseq2_table <- mRNA_expresion_deseq2_table %>% 
-  dplyr::filter(!(is.na(OSS_vs_LSS_paired_padj) & is.na(ESS_vs_LSS_paired_padj)))
+  dplyr::filter(!(is.na(OSS_vs_LSS_paired_padj) & 
+                  is.na(ESS_vs_LSS_paired_padj) & 
+                  is.na(OSS_vs_ESS_paired_padj)))
