@@ -1,11 +1,6 @@
-IPA workflow
-
-```{r libs}
-library(tidyverse)
-```
+# IPA workflow
 
 # STEP 1: CREATE THE TABLES THAT WILL BE USED IN IPA
-```{r}
 
 # mRNA for both contrast
 
@@ -26,95 +21,82 @@ mRNA_table_for_IPA <- expression_database %>%
                 OSS_vs_ESS_paired_baseMean
                 )
 
-# save the table and extract it from Rstudio
-dir.create("~/data/Steve_White/results/Giulio/2026/IPA_input/")
-write.csv(mRNA_table_for_IPA, file = "~/data/Steve_White/results/Giulio/2026/IPA_input/mRNA_table_for_IPA.csv", row.names = FALSE)
-
 
 # ----------------------------------------
 
-# don't have proteommics - graham
 # SECOND TABLE
 # create the table by selected only specific columns
 # 
-# protein_table_for_IPA <- statistics_proteomics_data %>% 
-#   # Filtered out all the abundance ratios that are equal to 100 or 0.01 (they might be false positive)
-#   dplyr::mutate(protein_OSS_vs_LSS_adj_pvalue = ifelse(protein_OSS_vs_LSS_Abundance_Ratio == 100 | protein_OSS_vs_LSS_Abundance_Ratio == 0.01, NA, protein_OSS_vs_LSS_adj_pvalue),
-#                 protein_OSS_vs_LSS_Abundance_Ratio = ifelse(protein_OSS_vs_LSS_Abundance_Ratio == 100 | protein_OSS_vs_LSS_Abundance_Ratio == 0.01, NA, protein_OSS_vs_LSS_Abundance_Ratio),
-#                 protein_ESS_vs_LSS_adj_pvalue = ifelse(protein_ESS_vs_LSS_Abundance_Ratio == 100 | protein_ESS_vs_LSS_Abundance_Ratio == 0.01, NA, protein_ESS_vs_LSS_adj_pvalue),
-#                 protein_ESS_vs_LSS_Abundance_Ratio = ifelse(protein_ESS_vs_LSS_Abundance_Ratio == 100 | protein_ESS_vs_LSS_Abundance_Ratio == 0.01, NA, protein_ESS_vs_LSS_Abundance_Ratio)) %>% 
-#   # Convert the abundance ratio of the proteins with a log2 transformation
-#   dplyr::mutate(protein_OSS_vs_LSS_Abundance_Ratio = ifelse(!is.na(protein_OSS_vs_LSS_Abundance_Ratio), log2(protein_OSS_vs_LSS_Abundance_Ratio), protein_OSS_vs_LSS_Abundance_Ratio),
-#                 protein_ESS_vs_LSS_Abundance_Ratio = ifelse(!is.na(protein_ESS_vs_LSS_Abundance_Ratio), log2(protein_ESS_vs_LSS_Abundance_Ratio), protein_ESS_vs_LSS_Abundance_Ratio)) %>% 
-#   # Select only column of interest
-#   dplyr::select(Protein_ID,
-#                 Target_ID,
-#                 protein_OSS_vs_LSS_Abundance_Ratio,
-#                 protein_OSS_vs_LSS_adj_pvalue,
-#                 protein_ESS_vs_LSS_Abundance_Ratio,
-#                 protein_ESS_vs_LSS_adj_pvalue
-#                 )
-# 
-# # save the table and extract it from Rstudio
-# write.csv(protein_table_for_IPA, file = "~/Project_Giulio_Vidotto/IPA_input/protein_table_for_IPA.csv", row.names = FALSE)
-# 
+protein_table_for_IPA <- statistics_proteomics_data %>% 
+  # Filtered out all the abundance ratios that are equal to 100 or 0.01 (they might be false positive)
+  dplyr::mutate(protein_OSS_vs_LSS_adj_pvalue = ifelse(protein_OSS_vs_LSS_Abundance_Ratio == 100 | protein_OSS_vs_LSS_Abundance_Ratio == 0.01, NA, protein_OSS_vs_LSS_adj_pvalue),
+                protein_OSS_vs_LSS_Abundance_Ratio = ifelse(protein_OSS_vs_LSS_Abundance_Ratio == 100 | protein_OSS_vs_LSS_Abundance_Ratio == 0.01, NA, protein_OSS_vs_LSS_Abundance_Ratio),
+                protein_ESS_vs_LSS_adj_pvalue = ifelse(protein_ESS_vs_LSS_Abundance_Ratio == 100 | protein_ESS_vs_LSS_Abundance_Ratio == 0.01, NA, protein_ESS_vs_LSS_adj_pvalue),
+                protein_ESS_vs_LSS_Abundance_Ratio = ifelse(protein_ESS_vs_LSS_Abundance_Ratio == 100 | protein_ESS_vs_LSS_Abundance_Ratio == 0.01, NA, protein_ESS_vs_LSS_Abundance_Ratio)) %>% 
+   # Convert the abundance ratio of the proteins with a log2 transformation
+   dplyr::mutate(protein_OSS_vs_LSS_Abundance_Ratio = ifelse(!is.na(protein_OSS_vs_LSS_Abundance_Ratio), log2(protein_OSS_vs_LSS_Abundance_Ratio), protein_OSS_vs_LSS_Abundance_Ratio),
+                 protein_ESS_vs_LSS_Abundance_Ratio = ifelse(!is.na(protein_ESS_vs_LSS_Abundance_Ratio), log2(protein_ESS_vs_LSS_Abundance_Ratio), protein_ESS_vs_LSS_Abundance_Ratio)) %>% 
+   # Select only column of interest
+   dplyr::select(Protein_ID,
+                 Target_ID,
+                 protein_OSS_vs_LSS_Abundance_Ratio,
+                 protein_OSS_vs_LSS_adj_pvalue,
+                 protein_ESS_vs_LSS_Abundance_Ratio,
+                 protein_ESS_vs_LSS_adj_pvalue
+                 )
 
-```
-
-
-
-Both tables will be used as input in IPA to run the pathway analysis
+#Both tables will be used as input in IPA to run the pathway analysis
 
 # STEP 2: FROM IPA TO THE VISUALIZATION ON RSTUDIO
 
-From now onward, the data used in this script are the ones obtained by IPA. 2 different analysis were run on IPA, one analysis per contrast (ESS vs LSS, OSS vs LSS). The whole list of expressed genes was used as input for each analysis. During each single analysis no filter on the cell types was used. Regarding the Expr. Fold Change, cutoff values of -1 and 1 were used while for the Expr FDR, a cut off value of 0.05 was used.
+#From now onward, the data used in this script are the ones obtained by IPA. 2 different analysis were run on IPA, one analysis per contrast (ESS vs LSS, OSS vs LSS). The whole list of expressed genes was used as input for each analysis. During each single analysis no filter on the cell types was used. Regarding the Expr. Fold Change, cutoff values of -1 and 1 were used while for the Expr FDR, a cut off value of 0.05 was used.
 
-Question that we can address with IPA:
-- which signaling and metabolic canonical pathways are enriched in the data?
+#Question that we can address with IPA:
+#- which signaling and metabolic canonical pathways are enriched in the data?
 
-  This can be shown in the canonical pathways tab. Here we can find a box plot (Also present in this script) that tell us which are the most significant pathways associated with our data and also, depending on the z-score, if those pathways are activated or inhibited.
+# This can be shown in the canonical pathways tab. Here we can find a box plot (Also present in this script) that tell us which are the most significant pathways associated with our data and also, depending on the z-score, if those pathways are activated or inhibited.
   
-- Which predicted upstream regulators are significant?
+# - Which predicted upstream regulators are significant?
 
-  IPA considers any molecule that has a downstream effect to be an upstream regulator. So it considers Transcription factors, miRNAs, Drugs, compounds, etc.
-  IPA is looking for upstream regulators that are able to change the expression, transcription, protein-DNA binding, phosphorylation of their targets.
-  In this type of analysis, as for the canonical pathway, we are looking at the overlap between what is know in literature regarding targets of upstream regulators
-  and my data.
+# IPA considers any molecule that has a downstream effect to be an upstream regulator. So it considers Transcription factors, miRNAs, Drugs, compounds, etc.
+# IPA is looking for upstream regulators that are able to change the expression, transcription, protein-DNA binding, phosphorylation of their targets.
+# In this type of analysis, as for the canonical pathway, we are looking at the overlap between what is know in literature regarding targets of upstream regulators
+# and my data.
   
-  Each row in the table is an upstream regulator with the corresponding p-value or FDR (if we decide to include it). Some upstream regulators have a value
-  for Expr. Fold Change while others do not. We have to keep in mind that an upstream regulator can be activated without inducing its expression. For example,
-  there could be post-transnational modifications that induce the activation of that upstream regulator. Then this activated molecule has an affect on its targets.
-  This takes into account the biological complexity.
+# Each row in the table is an upstream regulator with the corresponding p-value or FDR (if we decide to include it). Some upstream regulators have a value
+# for Expr. Fold Change while others do not. We have to keep in mind that an upstream regulator can be activated without inducing its expression. For example,
+# there could be post-transnational modifications that induce the activation of that upstream regulator. Then this activated molecule has an affect on its targets.
+# This takes into account the biological complexity.
   
-  For each upstream regulator, we get the Expr. Fold change of the targets and if the information about their regulation coming from literature.
-  Ex. A gene is regulated and the Fold Change is high, at the same time we could see that also in literature this gene is considered to be over expressed when regulated by that up-regulator.
+# For each upstream regulator, we get the Expr. Fold change of the targets and if the information about their regulation coming from literature.
+# Ex. A gene is regulated and the Fold Change is high, at the same time we could see that also in literature this gene is considered to be over expressed when regulated by that up-regulator.
   
-  N.B there is another option called Mechanistic Network and Causal Network that helps when we want to consider the effect of multiple regulators (Between the targets and the master upstream regulator there could be multiple intermediate regulators).
+# There is another option called Mechanistic Network and Causal Network that helps when we want to consider the effect of multiple regulators (Between the targets and the master upstream regulator there could be multiple intermediate regulators).
   
-- Which diseases and functions are over-represented?
+# - Which diseases and functions are over-represented?
 
-  There is a heat map (the dimension of the boxes are given by the p-value of that disease. The bigger, the more significant that disease is. This can be changed with the z-score. Same thing also for the color). If we click on one of the boxes we will find in the end a list of genes with data about their expression coming from our data and the prediction coming from the literature (as in the output of the upstream regulators).
+# There is a heat map (the dimension of the boxes are given by the p-value of that disease. The bigger, the more significant that disease is. This can be changed with the z-score. Same thing also for the color). If we click on one of the boxes we will find in the end a list of genes with data about their expression coming from our data and the prediction coming from the literature (as in the output of the upstream regulators).
   
-- Regulator effects
+# - Regulator effects
   
-  We can get a table where each row is a network (ranked by the consistency score). We get the information about the number of nodes present in the network divided by regulator nodes, target nodes and disease/function nodes. The last column is a rate between the relation between regulators and diseases/functions known in literature and the ones present in our data (Ex. 43% means that 43% of the relations between regulators and diseases/functions present in the network are also present in literature. All the others are novel). We can use the path tracer toll to highlight a specific path.
+# We can get a table where each row is a network (ranked by the consistency score). We get the information about the number of nodes present in the network divided by regulator nodes, target nodes and disease/function nodes. The last column is a rate between the relation between regulators and diseases/functions known in literature and the ones present in our data (Ex. 43% means that 43% of the relations between regulators and diseases/functions present in the network are also present in literature. All the others are novel). We can use the path tracer toll to highlight a specific path.
   
-- Networks
+# - Networks
   
-   To understand which molecules are highly interconnected and we can also see the diseases/functions that are related to these molecules/genes. Each network has a score and it depends on the number of focused molecules (molecules that passed the cutoffs and filters set during the core analysis. The higher the score, the more significant are the molecules that take part in that network). If we click on the molecule some of them are bold which are the ones present in our data or in general that are focus molecules. If we go on overlapping networks we can see if there are genes in common among networks.
+# To understand which molecules are highly interconnected and we can also see the diseases/functions that are related to these molecules/genes. Each network has a score and it depends on the number of focused molecules (molecules that passed the cutoffs and filters set during the core analysis. The higher the score, the more significant are the molecules that take part in that network). If we click on the molecule some of them are bold which are the ones present in our data or in general that are focus molecules. If we go on overlapping networks we can see if there are genes in common among networks.
 
-Statistical analysis in IPA
-1) p-value (right-tailed Fisher's Exact test is used for this calculation)
-   - Null Hypothesis: Any association between the molecules in my dataset and the molecules in a particular disease/pathway is due to chance alone.
-   - Significant p-values under 0.05
-   - Possible correction: Benjamini-Hochberg correction for multiple testing
+#Statistical analysis in IPA
+# 1) p-value (right-tailed Fisher's Exact test is used for this calculation)
+#   - Null Hypothesis: Any association between the molecules in my dataset and the molecules in a particular disease/pathway is due to chance alone.
+#   - Significant p-values under 0.05
+#   - Possible correction: Benjamini-Hochberg correction for multiple testing
    
-2) z-score
-   - Used for prediction about activation or inhibition (it compared the expression patterns of the genes in my data with what is known in literature databases)
-   - z-score >= 2 (activation) and z-score <= -2 (inhibition)
+# 2) z-score
+#   - Used for prediction about activation or inhibition (it compared the expression patterns of the genes in my data with what is known in literature databases)
+#   - z-score >= 2 (activation) and z-score <= -2 (inhibition)
    
-   N.B. The z-score can be used also for measure the match between two analysis:
-     - z-score >= 2 (match) and z-score <= -2 (anti-match)
+# The z-score can be used also for measure the match between two analysis:
+#    - z-score >= 2 (match) and z-score <= -2 (anti-match)
 
 
 ## Import the data regarding the canonical pathways and the upstream regulators for the ESS vs LSS confrontation
@@ -122,18 +104,13 @@ Statistical analysis in IPA
 
 ## First of all, define a function that allowed to modify the structure of the data to read the files in a correct way. Each file contains as first line "© 2000-2024 QIAGEN. All rights reserved." while the second line is empty and then the third contains the headers for the tabular data. For this reason the first two lines where removed.
 
-```{r}
 # GRS
-ipa_dir <- "~/data/Steve_White/results/Giulio/2026/IPA_output/output/"
+ipa_dir <- "" #Select the directory
 dir.create(ipa_dir, recursive = TRUE)
 
-```
-
-GRS - add check and upset plot
-
+# GRS - add check and upset plot
 ### checks
 
-```{r}
 # check effect sizes add as expected
 # GRS 
 check <- mRNA_table_for_IPA %>% mutate(OSS_vs_LSS_minus_ESS_vs_LSS = 
@@ -170,10 +147,7 @@ png(file.path(ipa_dir, "threeway_overlaps_mRNA_upset.png"), w=2400, h=1375, res=
 upset_fn(upset_data)
 dev.off()
 
-```
-GRS - output OSS vs ESS
-
-```{r }
+# GRS - output OSS vs ESS
 
 library(annotables)
 
@@ -189,15 +163,7 @@ outdat <- filter(check2, !!sym(pkey) < 0.05 & (!!sym(fckey) > 1 | !!sym(fckey) <
   rename("gene_name" = "symbol") %>%
   arrange(desc(!!sym(fckey)))
 
-
 write_csv(outdat, file = file.path(ipa_dir, "DE_genes_OSS_vs_ESS.csv"))
-
-
-
-```
-
-
-```{r}
 
 remove_first_two_lines <- function(file_name) {
   
@@ -214,11 +180,7 @@ remove_first_two_lines <- function(file_name) {
   
 }
 
-```
-
 ## Modify the data by removing the first two lines
-
-```{r}
 
 # Define a vector with all the names of the files that need to have the first two lines removed
 # file_name_matrix <- matrix(c("mRNA_ESS_vs_LSS_expression_analysis.tab=pathways.bar_plot_table.txt",
@@ -240,81 +202,8 @@ file_name_matrix <- matrix(list.files(ipa_dir))
 # Remove the first two lines from all the files
 apply(file_name_matrix, 1, remove_first_two_lines)
 
-```
-
-# Network
-
-```{r}
-# GRS - not run
-# Upload the file with the network information
-network_file_path <- "~/Project_Giulio_Vidotto/IPA_output/output/modified_network_table.txt"
-network_file <- read.delim(network_file_path, header = FALSE)[-1,]
-
-colnames(network_file) <- c("ID"," Consistency_Score", "Node_Total", "Regulator_Total", "Regulators", "Target_Total", "Target_Molecules_in_Dataset", "Disease_&_Function_Total", "Diseases_&_Functions", "Known_Regulator_Disease_Function_Relationship")
-
-network_file <- network_file %>% 
-  separate_rows("Regulators", sep = ",") %>% 
-  separate_rows("Target_Molecules_in_Dataset", sep = ",") %>% 
-  separate_rows("Diseases_&_Functions", sep = ",") %>% 
-  dplyr::select("Regulators", "Target_Molecules_in_Dataset", Diseases_Functions = "Diseases_&_Functions", "Regulator_Total", "Target_Total",  Diseases_Functions_total = "Disease_&_Function_Total")
-
-# Edges
-edges_regulator_target <- network_file %>% dplyr::select(from =  Regulators, to = Target_Molecules_in_Dataset)
-edges_target_disease <- network_file %>% dplyr::select(from = Regulators, to = Diseases_Functions)
-
-edges <- rbind(edges_regulator_target, edges_target_disease)
-
-# Nodes
-nodes_regulator <- network_file %>%
-  dplyr::select(id = Regulators, label = Regulators, Target_Total) %>%
-  dplyr::mutate(color = "blue", shape = "triangle", size = as.numeric(Target_Total)) %>%
-  dplyr::select(-Target_Total)
-
-nodes_target <- network_file %>% 
-  dplyr::select(id = Target_Molecules_in_Dataset, label = Target_Molecules_in_Dataset, Regulator_Total) %>%
-  dplyr::mutate(color = "darkgreen", shape = "dot", size = as.numeric(Regulator_Total)) %>% 
-  dplyr::select(-Regulator_Total)
-
-nodes_disease <- network_file %>%
-  dplyr::select(id = Diseases_Functions, label = Diseases_Functions, Diseases_Functions_total) %>%
-  dplyr::mutate(color = "red", shape = "square", size = as.numeric(Diseases_Functions_total)) %>%
-  dplyr::select(-Diseases_Functions_total)
-
-nodes <- rbind(nodes_regulator, nodes_target, nodes_disease) %>% dplyr::distinct(label, .keep_all = TRUE)
-
-
-# 4.3) Network
-legend_groups <- data.frame(
-    label = c("regulator", "target", "disease"),
-    shape = c("triangle", "dot", "square"),
-    color = c("blue", "darkgreen", "red"),
-    stringsAsFactors = FALSE
-  )
-
-plot <- visNetwork(nodes, edges, height = "1000px", width = "150%") %>%
-  visEdges(width = 0.5, color = list(color = "lightgray")) %>%
-  visIgraphLayout(layout = "layout_with_kk") %>% 
-    visLegend(
-          useGroups = FALSE,
-          addNodes = legend_groups,
-          position = "right",
-          ncol = 1,  # Change the number of columns if needed
-          stepX = 70, # Horizontal step between items
-          stepY = 100  # Vertical step between items
-        ) %>% 
-  visOptions(highlightNearest = list(enabled = TRUE,
-                                     degree = 1,
-                                     labelOnly = FALSE)
-             )
-
-show(plot)
-
-```
-
 
 ## Import the data regarding the canonical pathways and the upstream regulators for the OSS vs LSS confrontation
-
-```{r}
 
 # mRNA
 
@@ -348,11 +237,9 @@ mRNA_OSS_vs_LSS_contrast_wctf_ur <- read.delim(mRNA_OSS_vs_LSS_contrast_wctf_ur_
 # protein_OSS_vs_LSS_contrast_wctf_ur_path <- "~/Project_Giulio_Vidotto/IPA_output/output/modified_protein_OSS_vs_LSS_expression_analysis.tab=Upstream_Analaysis.Upstream_regulators_table.txt"
 # protein_OSS_vs_LSS_contrast_wctf_ur <- read.delim(protein_OSS_vs_LSS_contrast_wctf_ur_path, header = TRUE)
 
-```
 
 ## Import the data regarding the canonical pathways and the upstream regulators for the ESS vs LSS confrontation
 
-```{r}
 
 # mRNA
 
@@ -371,14 +258,9 @@ mRNA_ESS_vs_LSS_contrast_wctf_ur <- read.delim(mRNA_ESS_vs_LSS_contrast_wctf_ur_
 
 # ----------------------------------------
 
-```
-
-
 # Import the data for canonical pathways for Proteomics
 # GRS addition
 
-
-```{r}
 # # Cananical pathways ("cp") 
 # protein_ESS_vs_LSS_contrast_wctf_cp_path <- "~/Project_Giulio_Vidotto/IPA_output/output/modified_protein_ESS_vs_LSS_expression_analysis.tab=pathways.bar_plot_table.txt"
 # protein_ESS_vs_LSS_contrast_wctf_cp <- read.delim(protein_ESS_vs_LSS_contrast_wctf_cp_path, header = TRUE)
@@ -389,9 +271,9 @@ mRNA_ESS_vs_LSS_contrast_wctf_ur <- read.delim(mRNA_ESS_vs_LSS_contrast_wctf_ur_
 #   dplyr::rename(contrast_name = X)
 # 
 # # Upstream regulators ("ur")
-# protein_ESS_vs_LSS_contrast_wctf_ur_path <- "~/Project_Giulio_Vidotto/IPA_output/output/modified_protein_ESS_vs_LSS_expression_analysis.tab=Upstream_Analaysis.Upstream_regulators_table.txt"
+# protein_ESS_vs_LSS_contrast_wctf_ur_path <- ""
 # protein_ESS_vs_LSS_contrast_wctf_ur <- read.delim(protein_ESS_vs_LSS_contrast_wctf_ur_path, header = TRUE, na = "")
-protein_ipa_path <- "~/data/Steve_White/results/Giulio/2026/IPA_output/prot_3contrasts_all_IPA_tabs"
+protein_ipa_path <- ""
 prot_ESS_vs_LSS_contrast_wctf_cp <- read.delim(file.path(protein_ipa_path, "prot_ESS_vs_LSS_bar_plot_table.txt"), skip = 2, header = TRUE, na = "") %>%
     dplyr::mutate(X = "ESS vs LSS (proteins)") %>% 
     dplyr::rename(contrast_name = X) %>% 
@@ -410,9 +292,7 @@ prot_OSS_vs_ESS_contrast_wctf_cp <- read.delim(file.path(protein_ipa_path, "prot
 
 ## Import the data regarding the canonical pathways and the upstream regulators for the OSS vs ESS confrontation
 
-GRS addition
-
-```{r}
+#GRS addition
 
 # mRNA
 
@@ -431,16 +311,10 @@ mRNA_OSS_vs_ESS_contrast_wctf_ur <- read.delim(mRNA_OSS_vs_ESS_contrast_wctf_ur_
 
 # ----------------------------------------
 
-```
-
-
-
 
 # For each single canonical pathway, a bar plot will be created. The bar plot shows which are the pathways that are significant over a specific threshold for the adjusted p-values
 
-GRS: added mRNA_OSS_vs_ESS to the below 
-
-```{r}
+#GRS: added mRNA_OSS_vs_ESS to the below 
 
 source("../function_scripts/IPA_barplot_function.Rmd")
 
@@ -495,13 +369,7 @@ IPA_barcode_for_specific_gene_set(mRNA_ESS_vs_LSS_contrast_wctf_cp, "test group 
 # GRS
 IPA_barcode_for_specific_gene_set(mRNA_OSS_vs_ESS_contrast_wctf_cp, "test group 2", threshold = 0.05, n = 30)
 
-```
-
-
-GRS: bar plots for proteomics 
-
-
-```{r}
+# GRS: bar plots for proteomics 
 
 # GRS: this does not work; open file and click the code chunk
 # source("../function_scripts/IPA_barplot_function.Rmd")
@@ -557,15 +425,6 @@ IPA_barcode_for_specific_gene_set(mRNA_ESS_vs_LSS_contrast_wctf_cp, "test group 
 # GRS
 IPA_barcode_for_specific_gene_set(mRNA_OSS_vs_ESS_contrast_wctf_cp, "test group 2", threshold = 0.05, n = 30)
 
-```
-
-
-
-
-
-
-```{r}
-
 IPA_barcode_for_specific_gene_set <- function(IPA_file, group_name, threshold, n) {
   
   if (group_name %in% c("test group 1", "test group 2", "test group 3")) {
@@ -602,15 +461,7 @@ IPA_barcode_for_specific_gene_set <- function(IPA_file, group_name, threshold, n
   
 }
 
-
-
-```
-
-
-
 # LOOK AT THE MEANING OF THE GENES PRESENT IN ONE OF THE TEST GROUPS (DEFINED IN THE STATISTICAL PIPELINE)
-
-```{r}
 
 
 find_genes <- function(IPA_data,
@@ -817,11 +668,6 @@ find_genes <- function(IPA_data,
   
 }
 
-```
-
-
-
-```{r}
 # Define the database of altered miRNAs in a specific contrast
 # Possible altered_miR_database:
 # 1) "OSS_vs_LSS_miR_sequencing_database"
@@ -889,8 +735,5 @@ find_genes(IPA_data = mRNA_OSS_vs_LSS_contrast_wctf_ur,
            altered_miRNAs_type = config$altered_miRNAs_type,
            adj_p_value_threshold = config$adj_p_value_threshold,
            fold_change_threshold = config$fold_change_threshold)
-
-
-```
 
 
