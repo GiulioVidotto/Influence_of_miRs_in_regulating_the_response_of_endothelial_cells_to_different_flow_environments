@@ -71,8 +71,19 @@ miR_sequencing_database <- miR_sequencing_database %>%
 OSS_vs_LSS_miR_sequencing_database <- miR_sequencing_database %>% 
   dplyr::mutate(ID = gsub("_\\d*", "", ID)) %>% 
   dplyr::distinct(ID, .keep_all = TRUE) %>% 
-  dplyr::filter(abs(OSS_vs_LSS_paired_log2FoldChange) > 1 &
-                OSS_vs_LSS_paired_padj < 0.05 &
+  dplyr::filter(abs(OSS_vs_LSS_paired_log2FoldChange) >= 1 &
+                abs(OSS_vs_LSS_paired_log2FoldChange) <= 5 &
+                OSS_vs_LSS_paired_padj <= 0.05 &
+                patient_col_sum > 15)
+
+# --- 4. Obtain the altered miRNAs in the OSS vs ESS contrast --- 
+# We selected only the altered miRNAs with a minimum of 15 counts across all samples, considering the rest as not biologically significant.
+OSS_vs_ESS_miR_sequencing_database <- miR_sequencing_database %>% 
+  dplyr::mutate(ID = gsub("_\\d*", "", ID)) %>% 
+  dplyr::distinct(ID, .keep_all = TRUE) %>% 
+  dplyr::filter(abs(OSS_vs_ESS_paired_log2FoldChange) >= 1 &
+                abs(OSS_vs_ESS_paired_log2FoldChange) <= 5 &
+                OSS_vs_ESS_paired_padj <= 0.05 &
                 patient_col_sum > 15)
 
 # --- 4. Obtain the altered miRNAs in the ESS vs LSS contrast --- 
@@ -80,6 +91,7 @@ OSS_vs_LSS_miR_sequencing_database <- miR_sequencing_database %>%
 ESS_vs_LSS_miR_sequencing_database <- miR_sequencing_database %>% 
   dplyr::mutate(ID = gsub("_\\d*", "", ID)) %>% 
   dplyr::distinct(ID, .keep_all = TRUE) %>% 
-  dplyr::filter(abs(ESS_vs_LSS_paired_log2FoldChange) > 1 &
-                ESS_vs_LSS_paired_padj < 0.05 &
+  dplyr::filter(abs(ESS_vs_LSS_paired_log2FoldChange) >= 1 &
+                abs(ESS_vs_LSS_paired_log2FoldChange) <= 5 &
+                ESS_vs_LSS_paired_padj <= 0.05 &
                 patient_col_sum > 15)
