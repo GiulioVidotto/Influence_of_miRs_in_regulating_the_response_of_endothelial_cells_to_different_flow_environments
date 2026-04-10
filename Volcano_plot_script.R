@@ -1,3 +1,5 @@
+# This script is used to generate a volcano plot. In this example, the volcano plot for the OSS vs ESS contrast in the trascriptomics is generated.
+# If you want to generate the volcano plots for the miRNAs and proteomics, you have to change the date tables.
 # Obtain min/max values for the volcano plot
 min_log2FoldChange = max(
   min(expression_database$OSS_vs_LSS_paired_log2FoldChange),
