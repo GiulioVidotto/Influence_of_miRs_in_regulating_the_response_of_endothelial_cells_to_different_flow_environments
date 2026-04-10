@@ -1,15 +1,7 @@
-IPA workflow
-
-```{r libs}
-library(tidyverse)
-library(openxlsx)
-```
+# IPA workflow
 
 # Load IPA tables for 3 contrast analysis and make excel containing tabs 
-
-Should need only to change these parts to run it twice, once for mRNA, once for protein
-
-```{r toch}
+#Should need only to change these parts to run it twice, once for mRNA, once for protein
 
 # GRS define stuff
 
@@ -18,13 +10,9 @@ Should need only to change these parts to run it twice, once for mRNA, once for 
 # prefix <- "mRNA_"
 
 outfile_name <- "prot_IPA_results_3_contrasts.xlsx"
-ipa_dir <- "~/data/Steve_White/results/Giulio/2026/IPA_output/prot_3contrasts_all_IPA_tabs/"
+ipa_dir <- "" # select the directory
 prefix <- "prot_"
-```
 
-
-
-```{r}
 
 contr <- c("OSS_vs_LSS", "ESS_vs_LSS", "OSS_vs_ESS")
 shcontr <- gsub("_vs_", "v", contr)
@@ -36,15 +24,9 @@ names(name_lookup) <- filenames
 for (fn in filenames)
   cat(name_lookup[fn], " ", fn, "\n")
 
-```
-
-Now run it  
-
-
-```{r}
+# Now run it
 
 wb  <- openxlsx::createWorkbook()
-
 
 for (j in 1:5) {
   IPAtype <- filenames[j]
@@ -70,6 +52,3 @@ for (j in 1:5) {
 
 outfile <- file.path(ipa_dir, outfile_name)
 openxlsx::saveWorkbook(wb, outfile, overwrite = TRUE)
-
-```
-
